@@ -90,7 +90,7 @@ for splited_index, splited in enumerate(splited_list):
         oldest.append(oldest_text)
 
         save_market = f"{most_num_market}：{rate_market}%"
-        result.append([f"{start}〜{end}", save_market, rate_median, price_median, volumes_median])
+        result.append([f"{start}〜{end}", save_market, rate_median, f"{price_median:,}", f"{volumes_median:,}"])
 
     df = pd.DataFrame(result, columns=columns)
 
