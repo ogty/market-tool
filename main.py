@@ -4,17 +4,17 @@ import datetime
 
 from component.download_listed_stocks import download
 from totalling import totalling
-from component.market_position import (
+from component.market_trend import (
     update_logger, 
     market_holidays, 
     generate_schedule, 
     is_open,
-    position
+    trend
 )
 
 
 def market_close() -> None:
-    position()
+    trend()
     totalling()
 
 # Create schedule
@@ -35,7 +35,7 @@ while True:
         update_logger()
 
         # Set schedule
-        [schedule.every().day.at(i).do(position) for i in time_schedule]
+        [schedule.every().day.at(i).do(trend) for i in time_schedule]
         schedule.every().day.at("15:00").do(market_close)
 
         while True:

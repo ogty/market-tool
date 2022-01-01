@@ -23,8 +23,8 @@ def update_logger():
     )
     logger = logging.getLogger(__name__)
 
-# Logging and send market position
-def position() -> None:
+# Logging and send market trend
+def trend() -> None:
     ALL_COMAPNIES = 4136
 
     url = "https://info.finance.yahoo.co.jp/ranking/?kd=1&tm=d&mk=1"
@@ -47,7 +47,7 @@ def position() -> None:
         data=json.dumps({
             "text" : message,
             "icon_emoji" : ":dog:",
-            "username" : "Position"
+            "username" : "Trend"
             }
         )
     )
@@ -102,3 +102,25 @@ def is_open() -> bool:
             return True
     else:
         return False
+
+if __name__ == "__main__":
+    # Create schedule
+    waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
+    time_schedule = generate_schedule(range(9, 15), waste_schedule)
+    time_schedule.append("15:00")
+    
+    while True:
+        if is_open():
+            update_logger()
+
+            # Set schedule
+            [schedule.every().day.at(i).do(trend) for i in time_schedule]
+
+            while True:
+                if not is_open():
+                    break
+
+                schedule.run_pending()
+                time.sleep(1)
+        else:
+            time.sleep(1)

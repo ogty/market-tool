@@ -1,4 +1,3 @@
-import argparse
 import pandas as pd
 import datetime
 import statistics
@@ -114,8 +113,4 @@ def totalling() -> None:
             fig.savefig(f"{save_path}/{day}_down.png")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("function_name", type=str)
-    args = parser.parse_args()
-    func_dict = {k: v for k, v in locals().items() if callable(v)}
-    ret = func_dict[args.function_name]()
+    totalling()
