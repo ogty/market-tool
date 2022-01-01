@@ -67,7 +67,7 @@ class Trade:
 
 que = {}
 while True:
-    print(que.keys(), "\n")
+    print(que.keys())
 
     code = input("\nCode: ")
     shares = input("Shares: ")

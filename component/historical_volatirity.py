@@ -26,7 +26,7 @@ class HistoricalVolatirity:
     def calc(self, n=20, m=240) -> float:
         close = self.stock_data()
         data = np.array(close)
-        rate = np.log(data[1:] / data[0:-1])
+        rate = np.log(data[1:] / data[0: -1])
         std = np.hstack((np.empty(n) * np.nan, np.std(self.rolling_window(rate, n), axis=1, ddof=1)))
         hv = (std * np.sqrt(m) * 100).tolist()
 

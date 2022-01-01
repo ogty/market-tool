@@ -13,6 +13,7 @@ load_dotenv()
 
 today = datetime.datetime.now().strftime("%Y_%m_%d")
 
+# TODO: Make the file change when the date changes.
 stream_handler = logging.StreamHandler()
 file_handler = logging.FileHandler(f"./log/{today}.log")
 logging.basicConfig(
