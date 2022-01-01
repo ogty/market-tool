@@ -5,22 +5,17 @@ import pandas as pd
 import datetime
 
 
-class Main:
+class MarketDataAcquisition:
     def __init__(self, category=1) -> None:
         self.category = category
 
-    def category_max_page_num(self) -> int or None:
+    def category_max_page_num(self) -> int:
         url = f"https://info.finance.yahoo.co.jp/ranking/?kd={self.category}&tm=d&vl=a&mk=1&p=1"
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
         tag = soup.select("[class='ymuiPagingBottom clearFix']")
-
-        try:
-            result = int(tag[0].text.split("...")[1].rstrip("次へ"))
-        except IndexError as e:
-            print(f"Error: {e}")
-            return None
-
+        result = int(tag[0].text.split("...")[1].rstrip("次へ"))
+        
         return result
 
     def ranking_data(self) -> list:
@@ -65,8 +60,8 @@ class Main:
 
         return result
 
-up = Main()
-down = Main(category=2)
+up = MarketDataAcquisition()
+down = MarketDataAcquisition(category=2)
 
 up_result = up.ranking_data()
 down_result = down.ranking_data()
