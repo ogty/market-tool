@@ -2,3 +2,5 @@ bs4
 requests
 schedule
 pandas
+matplotlib
+japanize-matplotlib
