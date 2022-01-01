@@ -104,7 +104,7 @@ def is_open() -> bool:
 
 # Create schedule
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
-time_schedule = [i for i in generate_schedule(range(9, 15), waste_schedule)]
+time_schedule = generate_schedule(range(9, 15), waste_schedule)
 time_schedule.append("15:00")
 
 # Set schedule
