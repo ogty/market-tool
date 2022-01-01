@@ -6,6 +6,7 @@ from .data_acquisition import data_acquisition
 # TODO: I don't like something about it.
 
 # bb: Bollinger Band
+# std: Standard Diviation
 def bb_counter(code) -> dict:
     data = {}
 
@@ -16,15 +17,15 @@ def bb_counter(code) -> dict:
     bb["mean"] = df["Close"].rolling(window=20).mean()
     bb["std"] = df["Close"].rolling(window=20).std()
 
-    for sd in range(1, 4):
-        bb[f"upper{sd}"] = bb["mean"] + (bb["std"] * sd)
-        bb[f"lower{sd}"] = bb["mean"] - (bb["std"] * sd)
+    for std in range(1, 4):
+        bb[f"upper{std}"] = bb["mean"] + (bb["std"] * std)
+        bb[f"lower{std}"] = bb["mean"] - (bb["std"] * std)
 
-    for sd in range(1, 3):
-        for close, upper, lower in zip(bb["close"][-1:], bb[f"upper{sd}"][-1:], bb[f"lower{sd}"][-1:]):
+    for std in range(1, 3):
+        for close, upper, lower in zip(bb["close"][-1:], bb[f"upper{std}"][-1:], bb[f"lower{std}"][-1:]):
             if upper <= close:
-                data[code] = sd
+                data[code] = std
             if lower >= close:
-                data[code] = -sd
+                data[code] = -std
 
     return data
