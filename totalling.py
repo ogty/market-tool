@@ -105,8 +105,8 @@ for splited_index, splited in enumerate(splited_list):
     )
 
     if splited_index == 0:
-        # plt.savefig(f"{save_path}/{day}_up.png")
+        plt.title("Up Totalling")
         fig.savefig(f"{save_path}/{day}_up.png")
     else:
-        # plt.savefig(f"{save_path}/{day}_down.png")
+        plt.title("Down Totalling")
         fig.savefig(f"{save_path}/{day}_down.png")
