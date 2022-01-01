@@ -13,10 +13,11 @@ class CodeAcquisition:
         soup = BeautifulSoup(html.content, "html.parser")
         tag = soup.select("[class='ymuiPagingBottom clearFix']")
         result = int(tag[0].text.split("...")[1].rstrip("次へ"))
+
         return result
 
-    def code_scraping(self):
-        for i in self.max_page_scraping():
+    def code_scraping(self) -> None:
+        for i in range(1, self.max_page_scraping() + 1):
             url = f"https://info.finance.yahoo.co.jp/ranking/?kd={self.cateogry_number}&tm=d&vl=a&mk=1&p={i}"
             html = requests.get(url)
             soup = BeautifulSoup(html.content, "html.parser")
