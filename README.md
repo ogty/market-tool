@@ -6,4 +6,4 @@
 
 ### Totalling Sample Image
 
-![totalling sample image](./images/totalling_sample.png)
+![totalling sample image](./images/totalling_sample .png)
