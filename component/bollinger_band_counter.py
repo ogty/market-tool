@@ -1,6 +1,6 @@
 import pandas as pd
 
-from .data_acquisition import data_acquisition
+from .stock_data_acquisition import data_acquisition
 
 
 # TODO: I don't like something about it.

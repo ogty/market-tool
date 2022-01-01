@@ -1,2 +1,4 @@
 .DS_Store
 .env
+
+data/data_j.csv
