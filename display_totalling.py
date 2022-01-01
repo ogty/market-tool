@@ -26,9 +26,13 @@ median_text = "Rate".center(8)
 price_text = "Price".center(9)
 volume_text = "Volume".center(10)
 
+oldest_list = [""]
+oldest_text = ""
+
 for splited in [up_splited, down_splited]:
     print(f"\n{range_text}|{market_text}|{median_text}|{price_text}|{volume_text}")
     print("=" * 60)
+    oldest = [""]
     for i in range(len(splited)):
         # rate
         rate_data = splited[i]["rate"].to_list()
@@ -49,8 +53,15 @@ for splited in [up_splited, down_splited]:
         market_data = dict(splited[i]["market"].value_counts())
         num_of_market = sum([v for v in market_data.values()])
         most_num_market = next(iter(market_data))
+
         rate_market = round((market_data[most_num_market] / num_of_market) * 100)
         rate_market = str(rate_market).rjust(3)
+
+        oldest_text = most_num_market
+
+        if oldest[-1] == most_num_market:
+            most_num_market = "   〃  "
+
         display_market = f"{most_num_market}({rate_market}%)"
 
         # range
@@ -61,3 +72,5 @@ for splited in [up_splited, down_splited]:
             print(f" {start} ~ {end} | {display_market}  | {display_rate} | {display_price} | {display_volumes}")
         else:
             print(f" {start} ~ {end} | {display_market} | {display_rate} | {display_price} | {display_volumes}")
+        
+        oldest.append(oldest_text)
