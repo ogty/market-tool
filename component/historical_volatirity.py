@@ -5,7 +5,7 @@ from yahoo_finance_api2 import share
 
 
 class HistoricalVolatirity:
-    def __init__(self, code) -> None:
+    def __init__(self, code: str or int) -> None:
         self.code = code
 
     def stock_data(self) -> list:
@@ -17,7 +17,7 @@ class HistoricalVolatirity:
 
         return data
 
-    def rolling_window(self, data, window) -> None:
+    def rolling_window(self, data: list, window: int) -> None:
         shape = data.shape[:-1] + (data.shape[-1] - window + 1, window)
         strides = data.strides + (data.strides[-1],)
 

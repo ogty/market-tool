@@ -4,7 +4,7 @@ from yahoo_finance_api2 import share
 import matplotlib.pyplot as plt
 
 
-def data_acquisition(code) -> pd.DataFrame:
+def data_acquisition(code: str or int) -> pd.DataFrame:
     columns = ["Dates", "High", "Low", "Close", "Volume"]
     dates = []
 

@@ -3,7 +3,7 @@ import requests
 
 
 class CodeAcquisition:
-    def __init__(self, cateogry_number) -> None:
+    def __init__(self, cateogry_number: int) -> None:
         self.cateogry_number = cateogry_number
         self.codes = []
 

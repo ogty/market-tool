@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 
 class MarketDataAcquisition:
-    def category_max_page_num(self, category_number) -> int:
+    def category_max_page_num(self, category_number: int) -> int:
         url = f"https://info.finance.yahoo.co.jp/ranking/?kd={category_number}&tm=d&vl=a&mk=1&p=1"
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
@@ -16,7 +16,7 @@ class MarketDataAcquisition:
         
         return result
 
-    def ranking_data(self, category_number) -> list:
+    def ranking_data(self, category_number: int) -> list:
         codes = []
         markets = []
         prices = []

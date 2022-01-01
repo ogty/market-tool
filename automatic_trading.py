@@ -12,7 +12,7 @@ load_dotenv()
 
 
 class Trade:
-    def __init__(self, code, shares, price) -> None:
+    def __init__(self, code: str, shares: str, price: str) -> None:
         username = os.getlogin()
         absolute_directory_path = os.getcwd()
 
@@ -28,12 +28,12 @@ class Trade:
         self.shares = shares
         self.price = price
     
-    def click_path(self, xpath) -> None:
+    def click_path(self, xpath: str) -> None:
         element = self.driver.find_element_by_xpath(xpath)
         element.click()
         time.sleep(1)
 
-    def send_data(self, xpath, data) -> None:
+    def send_data(self, xpath: str, data: str) -> None:
         element = self.driver.find_element_by_xpath(xpath)
         element.send_keys(data)
         time.sleep(1)

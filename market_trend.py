@@ -69,27 +69,26 @@ def generate_schedule(hour_list, waste_schedule=[]) -> list:
 
     return time_schedule
 
-def market_holidays() -> list:
+def market_holidays(path: str) -> None:
     url = "https://www.jpx.co.jp/corporate/about-jpx/calendar/index.html"
     html = requests.get(url)
     soup = BeautifulSoup(html.content, "html.parser")
     data = soup.select("[class='a-center']")
-    result = [data[i].text for i in range(len(data)) if i % 2 == 0]
+    holidays = [data[i].text for i in range(len(data)) if i % 2 == 0]
 
-    return result
+    holidays = list(filter(lambda x: x.startswith(year), holidays))
+    holidays = list(map(lambda x: x[:-3], holidays))
+
+    with open(path, "w", encoding="utf-8") as f:
+        for holiday in holidays:
+            f.write(f"{holiday}\n")
 
 def is_open() -> bool:
     year = str(datetime.datetime.now().year)
     
     path = f"./data/{year}.txt"
     if not os.path.exists(path):
-        data = market_holidays()
-        holidays = list(filter(lambda x: x.startswith(year), data))
-        holidays = list(map(lambda x: x[:-3], holidays))
-
-        with open(path, "w", encoding="utf-8") as f:
-            for holiday in holidays:
-                f.write(f"{holiday}\n")
+        market_holidays(path)
     
     with open(path, "r", encoding="utf-8") as f:
         holidays = f.readlines()
@@ -108,7 +107,7 @@ if __name__ == "__main__":
     waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
     time_schedule = generate_schedule(range(9, 15), waste_schedule)
     time_schedule.append("15:00")
-    
+
     while True:
         if is_open():
             update_logger()
