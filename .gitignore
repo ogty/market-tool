@@ -1,0 +1,7 @@
+__pycache__/
+.DS_Store
+.env
+
+data/data_j.*
+market_data/
+totalling_data/
