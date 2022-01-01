@@ -11,17 +11,17 @@ import time
 load_dotenv()
 
 
-today = datetime.datetime.now().strftime("%Y_%m_%d")
+def update_logger():
+    today = datetime.datetime.now().strftime("%Y_%m_%d")
 
-# TODO: Make the file change when the date changes.
-stream_handler = logging.StreamHandler()
-file_handler = logging.FileHandler(f"./log/{today}.log")
-logging.basicConfig(
-    format="%(asctime)s | %(message)s", 
-    level=logging.INFO,
-    handlers=[stream_handler, file_handler]
-)
-logger = logging.getLogger(__name__)
+    stream_handler = logging.StreamHandler()
+    file_handler = logging.FileHandler(f"./log/{today}.log")
+    logging.basicConfig(
+        format="%(asctime)s | %(message)s", 
+        level=logging.INFO,
+        handlers=[stream_handler, file_handler]
+    )
+    logger = logging.getLogger(__name__)
 
 # Logging and send market position
 def position() -> None:
@@ -102,22 +102,3 @@ def is_open() -> bool:
             return True
     else:
         return False
-
-# Create schedule
-waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
-time_schedule = generate_schedule(range(9, 15), waste_schedule)
-time_schedule.append("15:00")
-
-# Set schedule
-[schedule.every().day.at(i).do(position) for i in time_schedule]
-
-while True:
-    if is_open():
-        while True:
-            if not is_open():
-                break
-
-            schedule.run_pending()
-            time.sleep(1)
-    else:
-        time.sleep(1)
