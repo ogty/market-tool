@@ -1,5 +1,5 @@
 .DS_Store
 .env
 
-data/data_j.csv
+data/data_j.*
 market_data
