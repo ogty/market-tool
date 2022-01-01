@@ -1,1 +1,0 @@
-![hv](../images/historical_volatility.png)
