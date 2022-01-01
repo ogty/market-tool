@@ -9,7 +9,7 @@ from component.dataframe_slicer import df_slicer
 from component.market_data_acquisition import MarketDataAcquisition
 
 
-# MarketDataAcquisition().save()
+MarketDataAcquisition().save()
 
 month = datetime.datetime.now().month
 day = datetime.datetime.now().day
@@ -86,10 +86,10 @@ for splited_index, splited in enumerate(splited_list):
         else:
             print(f" {start} ~ {end} | {display_market} | {display_rate} | {display_price} | {display_volumes}")
         
+        # update value
         oldest.append(oldest_text)
 
         save_market = f"{most_num_market}：{rate_market}%"
-
         result.append([f"{start}〜{end}", save_market, rate_median, price_median, volumes_median])
 
     df = pd.DataFrame(result, columns=columns)
