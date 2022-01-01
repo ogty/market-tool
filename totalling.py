@@ -10,7 +10,7 @@ from component.market_data_acquisition import MarketDataAcquisition
 
 
 def totalling() -> None:
-    # MarketDataAcquisition().save()
+    MarketDataAcquisition().save()
 
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
@@ -74,7 +74,7 @@ def totalling() -> None:
             oldest_text = most_num_market
 
             if oldest[-1] == most_num_market:
-                most_num_market = "   〃  "
+                most_num_market = "  〃   "
 
             display_market = f"{most_num_market}({rate_market}%)"
 
