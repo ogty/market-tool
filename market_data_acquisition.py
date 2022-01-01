@@ -1,8 +1,9 @@
-import os
 from bs4 import BeautifulSoup
-import requests
-import pandas as pd
 import datetime
+import os
+import pandas as pd
+import requests
+from tqdm import tqdm
 
 
 class MarketDataAcquisition:
@@ -27,26 +28,27 @@ class MarketDataAcquisition:
 
         result = []
 
-        max_page_num = self.category_max_page_num()
-        for i in range(1, max_page_num + 1):
-            url = f"https://info.finance.yahoo.co.jp/ranking/?kd={self.category}&tm=d&vl=a&mk=1&p={i}"
-            html = requests.get(url)
-            soup = BeautifulSoup(html.content, "html.parser")
+        max_page_num = self.category_max_page_num() + 1
+        for i in tqdm(range(max_page_num)):
+            if not i == 0:
+                url = f"https://info.finance.yahoo.co.jp/ranking/?kd={self.category}&tm=d&vl=a&mk=1&p={i}"
+                html = requests.get(url)
+                soup = BeautifulSoup(html.content, "html.parser")
 
-            code = soup.select("[class='txtcenter']")
-            codes += [code[i].text for i in range(len(code)) if not i % 2 == 0]
+                code = soup.select("[class='txtcenter']")
+                codes += [code[i].text for i in range(len(code)) if not i % 2 == 0]
 
-            market = soup.select("[class='txtcenter yjSt']")
-            markets += [market[i].text for i in range(len(market)) if i % 2 == 0]
+                market = soup.select("[class='txtcenter yjSt']")
+                markets += [market[i].text for i in range(len(market)) if i % 2 == 0]
 
-            price = soup.select("[class='txtright bold']")
-            prices += [float(i.text.replace(",", "")) for i in price]
+                price = soup.select("[class='txtright bold']")
+                prices += [float(i.text.replace(",", "")) for i in price]
 
-            rate = soup.select("[class='txtright bgyellow02']")
-            rates += [float(i.text.rstrip("%")) for i in rate]
+                rate = soup.select("[class='txtright bgyellow02']")
+                rates += [float(i.text.rstrip("%")) for i in rate]
 
-            volume = soup.select("[class='txtright']")
-            volumes += [int(i.text.replace(",", "")) for i in volume]
+                volume = soup.select("[class='txtright']")
+                volumes += [int(i.text.replace(",", "")) for i in volume]
 
         if self.category == 2:
             codes.reverse()

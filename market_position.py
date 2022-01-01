@@ -25,8 +25,7 @@ logger = logging.getLogger(__name__)
 
 # Logging and send market position
 def position() -> None:
-    # TODO: Maybe not 4300. I'll check and rewrite.
-    ALL_COMAPNIES = 4300
+    ALL_COMAPNIES = 4136
 
     url = "https://info.finance.yahoo.co.jp/ranking/?kd=1&tm=d&mk=1"
     html = requests.get(url)
