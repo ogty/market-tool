@@ -4,3 +4,4 @@ schedule
 pandas
 matplotlib
 japanize-matplotlib
+yahoo-finance-api2
