@@ -22,7 +22,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Loggin market position
+# Logging and send market position
 def position() -> None:
     ALL_COMAPNIES = 4300
 
@@ -40,7 +40,7 @@ def position() -> None:
 
     logger.info(message)
 
-    # slack bot
+    # Slack bot
     requests.post(
         os.environ["WEB_HOOK_URL"], 
         data=json.dumps({
@@ -102,12 +102,12 @@ def is_open() -> bool:
     else:
         return False
 
-# create schedule
+# Create schedule
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
 time_schedule = [i for i in generate_schedule(range(9, 15), waste_schedule)]
 time_schedule.append("15:00")
 
-# set schedule
+# Set schedule
 [schedule.every().day.at(i).do(position) for i in time_schedule]
 
 while True:
