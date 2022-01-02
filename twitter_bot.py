@@ -8,6 +8,7 @@ import datetime
 from bs4 import BeautifulSoup
 
 from market_trend import generate_schedule
+from totalling import totalling
 
 load_dotenv()
 
@@ -19,8 +20,10 @@ client = tweepy.Client(
     os.environ["ACCESS_TOKEN"], 
     os.environ["ACCESS_TOKEN_SECRET"]
 )
+
+# TODO: Run "count_listed_companies.py" periodically -> update ALL_COMPANIES
 def trend() -> None:
-    ALL_COMAPNIES = 4136
+    ALL_COMPANIES = 4136
 
     url = "https://info.finance.yahoo.co.jp/ranking/?kd=1&tm=d&mk=1"
     html = requests.get(url)
@@ -29,11 +32,12 @@ def trend() -> None:
     result = data[0].text
     up_companies = result.split("/")[1].replace("件中", "")
     
-    up_rate = round(int(up_companies) / ALL_COMAPNIES, 3)
+    up_rate = round(int(up_companies) / ALL_COMPANIES, 3)
     down_rate = round(1.0 - up_rate, 3)
 
     now = datetime.datetime.now()
     message = f"{now}\nUP：{up_rate * 100}%\nDOWN：{down_rate * 100}%"
+
     print(message)
     client.create_tweet(text=message)
 
@@ -42,6 +46,7 @@ def market_close() -> None:
     global is_open
 
     trend()
+    # totalling()
     is_open = False
 
 # Create schedule
