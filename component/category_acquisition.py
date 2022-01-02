@@ -18,7 +18,6 @@ class CategoryAcquisition:
         self.df_data = df_data
         self.result = {k: 0 for k in df_keys}
 
-    # TODO: Support for multiple
     def distribution(self, *markets) -> dict:
         if markets:
             for market in markets:
@@ -29,8 +28,9 @@ class CategoryAcquisition:
                     self.result[k] += v
         else:
             df_data = dict(self.df["33業種区分"].value_counts())
+            self.result = df_data
 
-        return df_data
+        return self.result
 
     def acquisition(self, codes: list, rate=True, n=3) -> dict:
         for code in codes:
@@ -46,12 +46,11 @@ class CategoryAcquisition:
 
 ca = CategoryAcquisition()
 
-# print(ca.distribution())
-# print(ca.distribution("市場第一部（内国株）", "マザーズ（内国株）"))
+print(ca.distribution("市場第一部（内国株）", "マザーズ（内国株）"))
 
-df_up = pd.read_csv("../market_data/1/2_up.csv")
-up_splited = df_slicer(df_up, 100)
+# df_up = pd.read_csv("../market_data/1/2_up.csv")
+# up_splited = df_slicer(df_up, 100)
 
 # codes = up_splited[0]["code"]
-codes = df_up["code"].tolist()
-print(ca.acquisition(codes))
+# codes = df_up["code"].tolist()
+# print(ca.acquisition(codes))
