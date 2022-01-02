@@ -8,7 +8,6 @@ import datetime
 from bs4 import BeautifulSoup
 
 from market_trend import generate_schedule
-from totalling import totalling
 
 load_dotenv()
 
@@ -41,28 +40,12 @@ def trend() -> None:
     print(message)
     client.create_tweet(text=message)
 
-is_open = True
-def market_close() -> None:
-    global is_open
-
-    trend()
-    # totalling()
-    is_open = False
-
 # Create schedule
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
 time_schedule = generate_schedule(range(9, 15), waste_schedule)
+time_schedule.append("15:00")
+[schedule.every().day.at(i).do(trend) for i in time_schedule]
 
 while True:
-    if is_open:
-        [schedule.every().day.at(i).do(trend) for i in time_schedule]
-        schedule.every().day.at("15:00").do(market_close)
-
-        while True:
-            if not is_open:
-                break
-
-            schedule.run_pending()
-            time.sleep(1)
-    else:
-        time.sleep(1)
+    schedule.run_pending()
+    time.sleep(1)

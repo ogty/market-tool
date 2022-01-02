@@ -1,14 +1,14 @@
-import urllib
-import requests
-import pandas as pd
-import os
+from bs4 import BeautifulSoup
+import datetime
 from dotenv import load_dotenv
-import tweepy
+import json
+import os
+import pandas as pd
+import requests
 import schedule
 import time
-import datetime
-from bs4 import BeautifulSoup
-import json
+import tweepy
+import urllib
 
 load_dotenv()
 
@@ -23,7 +23,7 @@ client = tweepy.Client(
 
 ALL_COMPANIES = 0
 
-# download new data file and update constant variable
+# download latest data file and update constant variable
 def download_update() -> None:
     global ALL_COMPANIES
 
