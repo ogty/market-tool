@@ -2,26 +2,29 @@ from bs4 import BeautifulSoup
 import datetime
 from dotenv import load_dotenv
 import json
-import logging
+# import logging
 import os
 import requests
 import schedule
 import time
 
 load_dotenv()
+# logger = logging.getLogger(__name__)
 
 
-def update_logger():
-    today = datetime.datetime.now().strftime("%Y_%m_%d")
+# def update_logger():
+#     global logger
 
-    stream_handler = logging.StreamHandler()
-    file_handler = logging.FileHandler(f"./log/{today}.log")
-    logging.basicConfig(
-        format="%(asctime)s | %(message)s", 
-        level=logging.INFO,
-        handlers=[stream_handler, file_handler]
-    )
-    logger = logging.getLogger(__name__)
+#     today = datetime.datetime.now().strftime("%Y_%m_%d")
+
+#     stream_handler = logging.StreamHandler()
+#     file_handler = logging.FileHandler(f"./log/{today}.log")
+#     logging.basicConfig(
+#         format="%(asctime)s | %(message)s", 
+#         level=logging.INFO,
+#         handlers=[stream_handler, file_handler]
+#     )
+#     logger = logging.getLogger(__name__)
 
 # Logging and send market trend
 def trend() -> None:
@@ -35,11 +38,11 @@ def trend() -> None:
     up_companies = result.split("/")[1].replace("件中", "")
     
     up_rate = round(int(up_companies) / ALL_COMAPNIES, 3)
-    down_rate = 1.0 - up_rate
+    down_rate = round(1.0 - up_rate, 3)
 
     message = f"UP: {up_rate} | DOWN: {down_rate}"
 
-    logger.info(message)
+    # logger.info(message)
 
     # Slack bot
     requests.post(
@@ -112,9 +115,7 @@ if __name__ == "__main__":
 
     while True:
         if is_open():
-            update_logger()
-
-            # Set schedule
+            # update_logger()
             [schedule.every().day.at(i).do(trend) for i in time_schedule]
 
             while True:

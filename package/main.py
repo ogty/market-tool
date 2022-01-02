@@ -9,7 +9,6 @@ import time
 import datetime
 from bs4 import BeautifulSoup
 import json
-import logging
 
 load_dotenv()
 
@@ -40,23 +39,6 @@ def download_update() -> None:
 
     ALL_COMPANIES = len(codes)
 
-def update_logger():
-    month = datetime.datetime.now().month
-    day = datetime.datetime.now().day
-
-    path = f"./log/{month}"
-    if not os.path.exists(path):
-        os.makedirs(path)
-
-    stream_handler = logging.StreamHandler()
-    file_handler = logging.FileHandler(f"{path}/{day}.log")
-    logging.basicConfig(
-        format="%(asctime)s | %(message)s", 
-        level=logging.INFO,
-        handlers=[stream_handler, file_handler]
-    )
-    logger = logging.getLogger(__name__)
-
 def trend() -> None:
     url = "https://info.finance.yahoo.co.jp/ranking/?kd=1&tm=d&mk=1"
     html = requests.get(url)
@@ -69,14 +51,13 @@ def trend() -> None:
     down_rate = round(1.0 - up_rate, 3)
 
     now = datetime.datetime.now()
-    message = f"{now}\nUP：{up_rate * 100}%\nDOWN：{down_rate * 100}%"
-    log_message = f"UP:{up_rate * 100}% | DOWN：{down_rate * 100}%"
+    twitter_message = f"{now}\nUP：{up_rate * 100}%\nDOWN：{down_rate * 100}%"
+    slack_message = f"{now.strftime('%H:%M')} | UP：{up_rate * 100}% | DOWN：{down_rate * 100}%"
 
-    logger.info(log_message)
-    print(message)
+    print(f"{now} - UP：{up_rate * 100}% - DOWN：{down_rate * 100}%")
 
     # Twitter bot
-    client.create_tweet(text=message)
+    client.create_tweet(text=twitter_message)
 
     # Slack bot
     requests.post(
