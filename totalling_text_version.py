@@ -40,18 +40,29 @@ def totalling() -> None:
 
     columns = ["Range", "Market", "Rate（％）", "Price（円）", "Volume"]
 
+    text = """"""
     splited_list = [up_splited, down_splited]
     for splited_index, splited in enumerate(splited_list):
         if splited_index == 0:
             print("\nUP")
             print("≡≡≡≡≡")
+
+            text += "\nUP"
+            text += "\n≡≡≡≡≡"
         else:
             print("\nDOWN")
             print("≡≡≡≡≡≡")
+
+            text += "\nDOWN"
+            text += "\n≡≡≡≡≡≡"
+
         # print(f"\n{range_text}|{market_text}|{median_text}|{price_text}|{volume_text}")
         print(f"{range_text}|{median_text}|{price_text}|{volume_text}|{market_text}")
-
         print("=" * 60)
+        
+        text += f"\n{range_text}|{median_text}|{price_text}|{volume_text}|{market_text}\n"
+        text += f"{'=' * 60}\n"
+
         oldest = [""]
         result = []
 
@@ -90,13 +101,10 @@ def totalling() -> None:
             start = str(i * 100 + 1).rjust(4)
             end = str((i + 1) * 100).rjust(4)
 
-            if not most_num_market == "マザーズ":
-                # print(f" {start} ~ {end} | {display_market}  | {display_rate} | {display_price} | {display_volumes}")
-                print(f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}")
-            else:
-                # print(f" {start} ~ {end} | {display_market} | {display_rate} | {display_price} | {display_volumes}")
-                print(f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}")
-            
+            # print(f" {start} ~ {end} | {display_market} | {display_rate} | {display_price} | {display_volumes}")
+            print(f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}")
+            text += f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}\n"
+
             # update value
             oldest.append(oldest_text)
 
@@ -121,6 +129,9 @@ def totalling() -> None:
         else:
             plt.title("Down Totalling")
             fig.savefig(f"{save_path}/{day}_down.png")
+
+    with open(f"{save_path}/{day}.txt", "w", encoding="utf-8") as f:
+        f.write(text)
 
 if __name__ == "__main__":
     totalling()
