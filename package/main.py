@@ -1,21 +1,55 @@
-from bs4 import BeautifulSoup
-import datetime
-from dotenv import load_dotenv
-import json
-import logging
-import os
+import urllib
 import requests
+import pandas as pd
+import os
+from dotenv import load_dotenv
+import tweepy
 import schedule
 import time
+import datetime
+from bs4 import BeautifulSoup
+import json
+import logging
 
 load_dotenv()
 
 
+client = tweepy.Client(
+    os.environ["BEARER_TOKEN"], 
+    os.environ["API_KEY"], 
+    os.environ["API_KEY_SECRET"], 
+    os.environ["ACCESS_TOKEN"], 
+    os.environ["ACCESS_TOKEN_SECRET"]
+)
+
+ALL_COMPANIES = 0
+
+# download new data file and update constant variable
+def download_update() -> None:
+    global ALL_COMPANIES
+
+    url = "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls"
+    save_path = "./data/data_j.xls"
+    urllib.request.urlretrieve(url, save_path)
+
+    df = pd.read_excel(save_path)
+    df.to_csv("./data/data_j.csv", index=False)
+
+    df = pd.read_csv("./data/data_j.csv")
+    codes = [i for i in df["コード"].to_list() if len(str(i)) == 4]
+
+    ALL_COMPANIES = len(codes)
+
 def update_logger():
-    today = datetime.datetime.now().strftime("%Y_%m_%d")
+    month = datetime.datetime.now().month
+    day = datetime.datetime.now().day
+
+    path = f"./log/{month}"
+    if not os.path.exists(path):
+        os.makedirs(path)
 
     stream_handler = logging.StreamHandler()
-    file_handler = logging.FileHandler(f"./log/{today}.log")
+    file_handler = logging.FileHandler(f"{path}/{day}.log")
     logging.basicConfig(
         format="%(asctime)s | %(message)s", 
         level=logging.INFO,
@@ -23,10 +57,7 @@ def update_logger():
     )
     logger = logging.getLogger(__name__)
 
-# Logging and send market trend
 def trend() -> None:
-    ALL_COMAPNIES = 4136
-
     url = "https://info.finance.yahoo.co.jp/ranking/?kd=1&tm=d&mk=1"
     html = requests.get(url)
     soup = BeautifulSoup(html.content, "html.parser")
@@ -34,12 +65,18 @@ def trend() -> None:
     result = data[0].text
     up_companies = result.split("/")[1].replace("件中", "")
     
-    up_rate = round(int(up_companies) / ALL_COMAPNIES, 3)
-    down_rate = 1.0 - up_rate
+    up_rate = round(int(up_companies) / ALL_COMPANIES, 3)
+    down_rate = round(1.0 - up_rate, 3)
 
-    message = f"UP: {up_rate} | DOWN: {down_rate}"
+    now = datetime.datetime.now()
+    message = f"{now}\nUP：{up_rate * 100}%\nDOWN：{down_rate * 100}%"
+    log_message = f"UP:{up_rate * 100}% | DOWN：{down_rate * 100}%"
 
-    logger.info(message)
+    logger.info(log_message)
+    print(message)
+
+    # Twitter bot
+    client.create_tweet(text=message)
 
     # Slack bot
     requests.post(
@@ -69,6 +106,7 @@ def generate_schedule(hour_list, waste_schedule=[]) -> list:
 
     return time_schedule
 
+# Get an annual leave schedule
 def market_holidays(path: str) -> None:
     url = "https://www.jpx.co.jp/corporate/about-jpx/calendar/index.html"
     html = requests.get(url)
@@ -83,6 +121,7 @@ def market_holidays(path: str) -> None:
         for holiday in holidays:
             f.write(f"{holiday}\n")
 
+# Working day or Holiday?
 def is_open() -> bool:
     year = str(datetime.datetime.now().year)
     
@@ -104,24 +143,28 @@ def is_open() -> bool:
     else:
         return False
 
-if __name__ == "__main__":
-    # Create schedule
-    waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
-    time_schedule = generate_schedule(range(9, 15), waste_schedule)
-    time_schedule.append("15:00")
+# Create schedule
+waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
+time_schedule = generate_schedule(range(9, 15), waste_schedule)
+time_schedule.append("15:00")
 
-    while True:
-        if is_open():
-            update_logger()
+oldest_month = 0
+while True:
+    latest_month = datetime.datetime.now().month
 
-            # Set schedule
-            [schedule.every().day.at(i).do(trend) for i in time_schedule]
+    # Initialize and Update "./data/data_j.csv"
+    if latest_month != oldest_month:
+        download_update()
+        oldest_month = latest_month
 
-            while True:
-                if not is_open():
-                    break
+    if is_open():
+        [schedule.every().day.at(i).do(trend) for i in time_schedule]
 
-                schedule.run_pending()
-                time.sleep(1)
-        else:
+        while True:
+            if not is_open():
+                break
+
+            schedule.run_pending()
             time.sleep(1)
+    else:
+        time.sleep(1)

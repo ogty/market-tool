@@ -1,0 +1,7 @@
+urllib
+requests
+pandas
+schedule
+tweepy
+bs4
+python-dotenv
