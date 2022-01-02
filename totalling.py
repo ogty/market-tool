@@ -10,7 +10,7 @@ from component.market_data_acquisition import MarketDataAcquisition
 
 
 def totalling() -> None:
-    # MarketDataAcquisition().save()
+    MarketDataAcquisition().save()
     
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
@@ -48,10 +48,10 @@ def totalling() -> None:
         else:
             print("\nDOWN")
             print("≡≡≡≡≡≡")
-        # print(f"\n{range_text}|{market_text}|{median_text}|{price_text}|{volume_text}")
-        print(f"{range_text}|{median_text}|{price_text}|{volume_text}|{market_text}")
 
+        print(f"{range_text}|{median_text}|{price_text}|{volume_text}|{market_text}")
         print("=" * 60)
+
         oldest = [""]
         result = []
 
@@ -91,10 +91,8 @@ def totalling() -> None:
             end = str((i + 1) * 100).rjust(4)
 
             if not most_num_market == "マザーズ":
-                # print(f" {start} ~ {end} | {display_market}  | {display_rate} | {display_price} | {display_volumes}")
                 print(f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}")
             else:
-                # print(f" {start} ~ {end} | {display_market} | {display_rate} | {display_price} | {display_volumes}")
                 print(f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}")
             
             # update value

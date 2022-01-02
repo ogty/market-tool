@@ -10,7 +10,7 @@ from component.market_data_acquisition import MarketDataAcquisition
 
 
 def totalling() -> None:
-    # MarketDataAcquisition().save()
+    MarketDataAcquisition().save()
     
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
@@ -56,7 +56,6 @@ def totalling() -> None:
             text += "\nDOWN"
             text += "\n≡≡≡≡≡≡"
 
-        # print(f"\n{range_text}|{market_text}|{median_text}|{price_text}|{volume_text}")
         print(f"{range_text}|{median_text}|{price_text}|{volume_text}|{market_text}")
         print("=" * 60)
         
@@ -101,7 +100,6 @@ def totalling() -> None:
             start = str(i * 100 + 1).rjust(4)
             end = str((i + 1) * 100).rjust(4)
 
-            # print(f" {start} ~ {end} | {display_market} | {display_rate} | {display_price} | {display_volumes}")
             print(f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}")
             text += f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}\n"
 
