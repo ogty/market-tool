@@ -4,6 +4,7 @@ import tweepy
 import schedule
 import time
 import requests
+import datetime
 from bs4 import BeautifulSoup
 
 from market_trend import generate_schedule
@@ -31,7 +32,8 @@ def trend() -> None:
     up_rate = round(int(up_companies) / ALL_COMAPNIES, 3)
     down_rate = round(1.0 - up_rate, 3)
 
-    message = f"UP：{up_rate * 100}%\nDOWN：{down_rate * 100}%"
+    now = datetime.datetime.now()
+    message = f"{now}\nUP：{up_rate * 100}%\nDOWN：{down_rate * 100}%"
     print(message)
     client.create_tweet(text=message)
 
@@ -40,8 +42,6 @@ def market_close() -> None:
     global is_open
 
     trend()
-    totalling()
-
     is_open = False
 
 # Create schedule
