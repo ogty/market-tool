@@ -74,3 +74,12 @@ DOWN
  2001 ~ 2100 |   -4.4 |  1405.0 | 123500.0 | マザーズ( 43%)
  2101 ~ 2200 | -21.43 |  1029.0 | 672450.0 |   〃   (100%)
 ```
+
+"totalling.py" will provide you with some values based on the rising and falling rate rankings for the day you run it.
+"Range" represents the interval between the rankings, and you may think of it as a rank value.
+The corresponding data are Rate, Price, Volume, and Market.
+
+Rate, Price, and Volume represent the median of the intervals.
+Market shows the name and percentage of the most widely distributed market in the interval.
+
+"〃" indicates that the market is the same as the previous interval.
