@@ -1,13 +1,13 @@
 {
-    "URL": "",
-    "LOGIN": "",
-    "TRANSACTION": "",
-    "SELECT_MARKET": "",
-    "BUY": "",
-    "SELL": "",
-    "COMPANY_CODE": "",
-    "NUM_OF_SHARES": "",
-    "PRICE": "",
-    "ABBREVIATIONS": "",
-    "SUBMIT": ""
+    "URL": "https://site3.sbisec.co.jp/ETGate/",
+    "LOGIN": "/html/body/table/tbody/tr[1]/td[2]/form/div/div/div/p[2]/a/input",
+    "TRANSACTION": "/html/body/div[1]/div[1]/div[2]/div/ul/li[2]/a",
+    "SELECT_MARKET": "/html/body/div[1]/table/tbody/tr/td[1]/form/table[2]/tbody/tr/td/table/tbody/tr[2]/td[5]/div/p/select/option[2]",
+    "BUY": "/html/body/div[1]/table/tbody/tr/td[1]/form/table[2]/tbody/tr/td/table/tbody/tr[1]/td[2]/div/input",
+    "SELL": "/html/body/div[1]/table/tbody/tr/td[1]/form/table[2]/tbody/tr/td/table/tbody/tr[1]/td[3]/div/input",
+    "COMPANY_CODE": "/html/body/div[1]/table/tbody/tr/td[1]/form/table[2]/tbody/tr/td/table/tbody/tr[2]/td[2]/div/input",
+    "NUM_OF_SHARES": "/html/body/div[1]/table/tbody/tr/td[1]/form/table[3]/tbody/tr[1]/td/table/tbody/tr/td[2]/input",
+    "PRICE": "/html/body/div[1]/table/tbody/tr/td[1]/form/table[3]/tbody/tr[2]/td/table/tbody/tr[1]/td[2]/input",
+    "ABBREVIATIONS": "/html/body/div[1]/table/tbody/tr/td[1]/form/div[2]/div/div/div[3]/table/tbody/tr/td/div[2]/p/input",
+    "SUBMIT": "/html/body/div[1]/table/tbody/tr/td[1]/form/div[2]/div/div/div[3]/table/tbody/tr/td/div[1]/table/tbody/tr/td[2]/a[2]"
 }

@@ -1,14 +1,13 @@
 from dotenv import load_dotenv
-# import json
+import json
 import os
 from selenium import webdriver
 import time
 
 load_dotenv()
 
-# TODO: Load environ -> json
-# x_path = open("./data/x_path.json", "r", encoding="utf-8")
-# config = json.load(x_path)
+x_path = open("./data/x_path.json", "r", encoding="utf-8")
+config = json.load(x_path)
 
 
 class Trade:
@@ -40,22 +39,22 @@ class Trade:
 
     # default:s buy(whitch=1)
     def main(self, which=1) -> None:
-        self.driver.get(os.environ["URL"])
-        self.click_path(os.environ["LOGIN"])
-        self.click_path(os.environ["TRANSACTION"])
-        self.click_path(os.environ["SELECT_MARKET"])
+        self.driver.get(config["URL"])
+        self.click_path(config["LOGIN"])
+        self.click_path(config["TRANSACTION"])
+        self.click_path(config["SELECT_MARKET"])
 
         if which:
-            self.click_path(os.environ["BUY"])
+            self.click_path(config["BUY"])
         else:
-            self.click_path(os.environ["SELL"])
+            self.click_path(config["SELL"])
 
-        self.send_data(os.environ["COMPANY_CODE"], self.code)
-        self.send_data(os.environ["NUM_OF_SHARES"], self.shares)
-        self.send_data(os.environ["PRICE"], self.price)
+        self.send_data(config["COMPANY_CODE"], self.code)
+        self.send_data(config["NUM_OF_SHARES"], self.shares)
+        self.send_data(config["PRICE"], self.price)
 
-        self.click_path(os.environ["ABBREVIATIONS"])
-        self.click_path(os.environ["SUBMIT"])
+        self.click_path(config["ABBREVIATIONS"])
+        self.click_path(config["SUBMIT"])
 
     def buy(self) -> None:
         self.main()
