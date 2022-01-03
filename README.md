@@ -8,7 +8,7 @@
  - Totalling Market
  - Judge Open or Close
  - Twitter Bot
- - Get Market Trend(Every 10 minutes)
+ - Get Market Trend
  - Useful Components
 
 ***
