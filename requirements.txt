@@ -6,3 +6,4 @@ matplotlib
 japanize-matplotlib
 yahoo-finance-api2
 tqdm
+xlrd
