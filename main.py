@@ -2,10 +2,9 @@ import schedule
 import time
 import datetime
 
-from component.download_listed_stocks import download
+from component.download_update import download_update
 from totalling import totalling
-from component.market_trend import (
-    update_logger, 
+from market_trend import (
     market_holidays, 
     generate_schedule, 
     is_open,
@@ -13,7 +12,7 @@ from component.market_trend import (
 )
 
 
-def market_close() -> None:
+def market_close():
     trend()
     totalling()
 
@@ -21,20 +20,8 @@ def market_close() -> None:
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
 time_schedule = generate_schedule(range(9, 15), waste_schedule)
 
-oldest_month = 0
-
 while True:
-    month = datetime.datetime.now().month
-
-    # Update "./data/data_j.csv"
-    if month != oldest_month:
-        download()
-        oldest_month = month
-
     if is_open():
-        update_logger()
-
-        # Set schedule
         [schedule.every().day.at(i).do(trend) for i in time_schedule]
         schedule.every().day.at("15:00").do(market_close)
 

@@ -8,9 +8,21 @@ import requests
 import schedule
 import time
 
+from component.download_update import download_update
+
+
 load_dotenv()
 # logger = logging.getLogger(__name__)
+oldest_month = 0
+ALL_COMPANIES = 0
 
+client = tweepy.Client(
+    os.environ["BEARER_TOKEN"], 
+    os.environ["API_KEY"], 
+    os.environ["API_KEY_SECRET"], 
+    os.environ["ACCESS_TOKEN"], 
+    os.environ["ACCESS_TOKEN_SECRET"]
+)
 
 # def update_logger():
 #     global logger
@@ -28,7 +40,13 @@ load_dotenv()
 
 # Logging and send market trend
 def trend() -> None:
-    ALL_COMAPNIES = 4136
+    global ALL_COMPANIES
+
+    latest_month = datetime.datetime.now().month
+
+    if latest_month != oldest_month:
+        ALL_COMPANIES = download_update()
+        oldest_month = latest_month
 
     url = "https://info.finance.yahoo.co.jp/ranking/?kd=1&tm=d&mk=1"
     html = requests.get(url)
@@ -43,6 +61,9 @@ def trend() -> None:
     message = f"UP: {up_rate} | DOWN: {down_rate}"
 
     # logger.info(message)
+
+    # Twitter bot
+    client.create_tweet(text=twitter_message)
 
     # Slack bot
     requests.post(
