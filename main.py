@@ -3,7 +3,7 @@ import time
 import datetime
 
 from component.download_update import download_update
-from totalling import totalling
+from totalling_text_version import totalling
 from market_trend import (
     generate_schedule, 
     is_open,
@@ -21,6 +21,9 @@ time_schedule = generate_schedule(range(9, 15), waste_schedule)
 
 while True:
     if is_open():
+        today = datetime.datetime.now().strftime("%Y/%m/%d")
+        print(today)
+
         [schedule.every().day.at(i).do(trend) for i in time_schedule]
         schedule.every().day.at("15:00").do(market_close)
 

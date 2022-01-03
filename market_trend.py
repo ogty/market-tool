@@ -7,6 +7,7 @@ import os
 import requests
 import schedule
 import time
+import tweepy
 
 from component.download_update import download_update
 

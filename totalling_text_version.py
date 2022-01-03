@@ -11,6 +11,7 @@ from component.market_data_acquisition import MarketDataAcquisition
 
 def totalling() -> None:
     MarketDataAcquisition().save()
+    today = datetime.datetime.now().strftime("%Y/%m/%d")
     
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
@@ -40,7 +41,9 @@ def totalling() -> None:
 
     columns = ["Range", "Market", "Rate（％）", "Price（円）", "Volume"]
 
-    text = """"""
+    text = f"""
+    {today}
+    """
     splited_list = [up_splited, down_splited]
     for splited_index, splited in enumerate(splited_list):
         if splited_index == 0:
@@ -121,12 +124,11 @@ def totalling() -> None:
             bbox=[0, 0, 1, 1]
         )
 
-        today = datetime.datetime.now().strftime("%Y/%m/%d")
         if splited_index == 0:
-            plt.title(f"{today} Up Totalling")
+            plt.title(f"Up Totalling {today}")
             fig.savefig(f"{save_path}/{day}_up.png")
         else:
-            plt.title(f"{today} Down Totalling")
+            plt.title(f"Down Totalling {today}")
             fig.savefig(f"{save_path}/{day}_down.png")
 
     with open(f"{save_path}/{day}.txt", "w", encoding="utf-8") as f:
