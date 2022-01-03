@@ -28,18 +28,21 @@ class Analizer:
         return result
 
     def distribution(self, *markets) -> dict:
+        df_data = dict(self.df["33業種区分"].value_counts())
+        result = {k: 0 for k in df_data.keys()}
+
         if markets:
             for market in markets:
                 tmp_df = self.df[(self.df["市場・商品区分"] == market)]
-                df_data = dict(tmp_df["33業種区分"].value_counts())
+                tmp_df_data = dict(tmp_df["33業種区分"].value_counts())
 
-                for k, v in df_data.items():
-                    self.result[k] += v
+                for k, v in tmp_df_data.items():
+                    result[k] += v
         else:
-            df_data = dict(self.df["33業種区分"].value_counts())
-            self.result = df_data
+            tmp_df_data = dict(self.df["33業種区分"].value_counts())
+            result = df_data
 
-        return self.result
+        return result
 
     def category(self) -> dict:
         return self.common()
