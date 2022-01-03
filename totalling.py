@@ -113,11 +113,12 @@ def totalling() -> None:
             bbox=[0, 0, 1, 1]
         )
 
+        today = datetime.datetime.now().strftime("%Y/%m/%d")
         if splited_index == 0:
-            plt.title("Up Totalling")
+            plt.title(f"{today} Up Totalling")
             fig.savefig(f"{save_path}/{day}_up.png")
         else:
-            plt.title("Down Totalling")
+            plt.title(f"{today} Down Totalling")
             fig.savefig(f"{save_path}/{day}_down.png")
 
 if __name__ == "__main__":

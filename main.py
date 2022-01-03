@@ -5,7 +5,6 @@ import datetime
 from component.download_update import download_update
 from totalling import totalling
 from market_trend import (
-    market_holidays, 
     generate_schedule, 
     is_open,
     trend
