@@ -7,9 +7,10 @@
  - Automatic Trading
  - Totalling Market
  - Judge Open or Close
- - Twitter Bot
  - Get Market Trend
  - Useful Components
+ - Twitter Bot
+ - Slack Bot
 
 ***
 
