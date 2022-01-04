@@ -4,12 +4,9 @@ from dotenv import load_dotenv
 import json
 import os
 import requests
-import schedule
-import time
 import tweepy
 
 from component.download_update import download_update
-from component.generate_schedule import generate_schedule
 
 
 load_dotenv()
@@ -96,20 +93,3 @@ def is_open() -> bool:
             return False
     else:
         return False
-
-if __name__ == "__main__":
-    waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
-    time_schedule = generate_schedule(range(9, 15), step=10, waste_schedule=waste_schedule)
-
-    while True:
-        if is_open():
-            [schedule.every().day.at(i).do(trend) for i in time_schedule]
-
-            while True:
-                if not is_open():
-                    break
-
-                schedule.run_pending()
-                time.sleep(1)
-        else:
-            time.sleep(1)
