@@ -57,10 +57,12 @@ def trend() -> None:
     result = data[0].text
     up_companies = result.split("/")[1].replace("件中", "")
     
-    up_rate = round(int(up_companies) / ALL_COMPANIES, 3)
-    down_rate = round(1.0 - up_rate, 3)
+    up_rate = round((int(up_companies) / ALL_COMPANIES) * 100, 3)
+    down_rate = round((1.0 - up_rate) * 100, 3)
 
-    message = f"UP: {up_rate} | DOWN: {down_rate}"
+    now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
+    message = f"{now} | UP: {up_rate} | DOWN: {down_rate}"
+    twitter_message = f"{now}\nUP：{up_rate}\nDOWN：{down_rate}"
 
     # logger.info(message)
 
@@ -95,7 +97,7 @@ def generate_schedule(hour_list, waste_schedule=[]) -> list:
 
     return time_schedule
 
-def market_holidays(path: str) -> None:
+def market_holidays(year: str, path: str) -> None:
     url = "https://www.jpx.co.jp/corporate/about-jpx/calendar/index.html"
     html = requests.get(url)
     soup = BeautifulSoup(html.content, "html.parser")
@@ -114,7 +116,7 @@ def is_open() -> bool:
     
     path = f"./data/{year}.txt"
     if not os.path.exists(path):
-        market_holidays(path)
+        market_holidays(year, path)
     
     with open(path, "r", encoding="utf-8") as f:
         holidays = [holiday.rstrip() for holiday in f]
