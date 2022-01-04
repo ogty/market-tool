@@ -15,20 +15,27 @@ time_schedule = generate_schedule(range(9, 15), step=10, waste_schedule=waste_sc
 
 loading = loading_spinner()
 
+oldest_day = datetime.datetime.now().day
+latest_day = 0
+
 while True:
     if is_open():
-        today = datetime.datetime.now().strftime("%Y/%m/%d")
-        print(f"\n\n{today}")
-
         [schedule.every().day.at(i).do(trend) for i in time_schedule]
         schedule.every().day.at("15:05").do(totalling)
 
         while True:
-            if not is_open():
+            latest_day = datetime.datetime.now().day
+
+            if latest_day == oldest_day:
+                today = datetime.datetime.now().strftime("%Y/%m/%d")
+                print(f"\n\n{today}")
+            else:
                 break
 
             schedule.run_pending()
             time.sleep(1)
+        
+        oldest_day = latest_day
     else:
         print("Holiday  ", end="\b")
         while True:
