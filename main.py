@@ -31,7 +31,6 @@ while True:
 
             schedule.run_pending()
             time.sleep(1)
-            print("process...")
 
             if latest_day != oldest_day:
                 break
