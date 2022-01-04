@@ -2,10 +2,9 @@ from bs4 import BeautifulSoup
 import datetime
 import os
 import requests
-import time
 
 
-def market_holidays(path: str) -> None:
+def market_holidays(year: str, path: str) -> None:
     url = "https://www.jpx.co.jp/corporate/about-jpx/calendar/index.html"
     html = requests.get(url)
     soup = BeautifulSoup(html.content, "html.parser")
@@ -24,7 +23,7 @@ def is_open() -> bool:
     
     path = f"./data/{year}.txt"
     if not os.path.exists(path):
-        market_holidays(path)
+        market_holidays(year, path)
     
     with open(path, "r", encoding="utf-8") as f:
         holidays = [holiday.rstrip() for holiday in f]
