@@ -40,16 +40,14 @@ def trend() -> None:
     print(message)
     client.create_tweet(text=message)
 
-def market_close():
-    trend()
-    totalling()
-
 # Create schedule
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
 time_schedule = generate_schedule(range(9, 15), waste_schedule)
+time_schedule.append("15:00")
+
 [schedule.every().day.at(i).do(trend) for i in time_schedule]
 
-schedule.every().day.at("15:00").do(market_close)
+schedule.every().day.at("15:05").do(totalling)
 
 while True:
     schedule.run_pending()
