@@ -20,20 +20,21 @@ latest_day = 0
 
 while True:
     if is_open():
+        today = datetime.datetime.now().strftime("%Y/%m/%d")
+        print(f"\n\n{today}")
+
         [schedule.every().day.at(i).do(trend) for i in time_schedule]
         schedule.every().day.at("15:05").do(totalling)
 
         while True:
             latest_day = datetime.datetime.now().day
 
-            if latest_day == oldest_day:
-                today = datetime.datetime.now().strftime("%Y/%m/%d")
-                print(f"\n\n{today}")
-            else:
-                break
-
             schedule.run_pending()
             time.sleep(1)
+            print("process...")
+
+            if latest_day != oldest_day:
+                break
         
         oldest_day = latest_day
     else:
