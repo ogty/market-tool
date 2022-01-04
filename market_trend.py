@@ -42,6 +42,7 @@ client = tweepy.Client(
 # Logging and send market trend
 def trend() -> None:
     global ALL_COMPANIES
+    global oldest_month 
 
     latest_month = datetime.datetime.now().month
 
@@ -56,7 +57,7 @@ def trend() -> None:
     result = data[0].text
     up_companies = result.split("/")[1].replace("件中", "")
     
-    up_rate = round(int(up_companies) / ALL_COMAPNIES, 3)
+    up_rate = round(int(up_companies) / ALL_COMPANIES, 3)
     down_rate = round(1.0 - up_rate, 3)
 
     message = f"UP: {up_rate} | DOWN: {down_rate}"

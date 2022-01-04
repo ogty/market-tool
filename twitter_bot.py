@@ -8,6 +8,7 @@ import datetime
 from bs4 import BeautifulSoup
 
 from market_trend import generate_schedule
+from totalling_text_version import totalling
 
 load_dotenv()
 
@@ -20,7 +21,6 @@ client = tweepy.Client(
     os.environ["ACCESS_TOKEN_SECRET"]
 )
 
-# TODO: Run "count_listed_companies.py" periodically -> update ALL_COMPANIES
 def trend() -> None:
     ALL_COMPANIES = 4136
 
@@ -40,11 +40,16 @@ def trend() -> None:
     print(message)
     client.create_tweet(text=message)
 
+def market_close():
+    trend()
+    totalling()
+
 # Create schedule
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
 time_schedule = generate_schedule(range(9, 15), waste_schedule)
-time_schedule.append("15:00")
 [schedule.every().day.at(i).do(trend) for i in time_schedule]
+
+schedule.every().day.at("15:00").do(market_close)
 
 while True:
     schedule.run_pending()
