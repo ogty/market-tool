@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import datetime
 from dotenv import load_dotenv
 import json
-# import logging
 import os
 import requests
 import schedule
@@ -10,10 +9,10 @@ import time
 import tweepy
 
 from component.download_update import download_update
+from component.generate_schedule import generate_schedule
 
 
 load_dotenv()
-# logger = logging.getLogger(__name__)
 oldest_month = 0
 ALL_COMPANIES = 0
 
@@ -25,21 +24,6 @@ client = tweepy.Client(
     os.environ["ACCESS_TOKEN_SECRET"]
 )
 
-# def update_logger():
-#     global logger
-
-#     today = datetime.datetime.now().strftime("%Y_%m_%d")
-
-#     stream_handler = logging.StreamHandler()
-#     file_handler = logging.FileHandler(f"./log/{today}.log")
-#     logging.basicConfig(
-#         format="%(asctime)s | %(message)s", 
-#         level=logging.INFO,
-#         handlers=[stream_handler, file_handler]
-#     )
-#     logger = logging.getLogger(__name__)
-
-# Logging and send market trend
 def trend() -> None:
     global ALL_COMPANIES
     global oldest_month 
@@ -64,8 +48,6 @@ def trend() -> None:
     message = f"{now} | UP: {up_rate} | DOWN: {down_rate}"
     twitter_message = f"{now}\nUP：{up_rate}\nDOWN：{down_rate}"
 
-    # logger.info(message)
-
     # Twitter bot
     client.create_tweet(text=twitter_message)
 
@@ -79,23 +61,6 @@ def trend() -> None:
             }
         )
     )
-
-def generate_schedule(hour_list, waste_schedule=[]) -> list:
-    time_schedule = []
-
-    for hour in hour_list:
-        for minute in range(0, 51, 10):
-            if len(str(hour)) == 1:
-                hour = f"0{hour}"
-            if len(str(minute)) == 1:
-                minute = f"0{minute}"
-
-            time_schedule.append(f"{hour}:{minute}")
-
-    for waste in waste_schedule:
-        time_schedule.remove(waste)
-
-    return time_schedule
 
 def market_holidays(year: str, path: str) -> None:
     url = "https://www.jpx.co.jp/corporate/about-jpx/calendar/index.html"
@@ -133,14 +98,11 @@ def is_open() -> bool:
         return False
 
 if __name__ == "__main__":
-    # Create schedule
     waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
-    time_schedule = generate_schedule(range(9, 15), waste_schedule)
-    time_schedule.append("15:00")
+    time_schedule = generate_schedule(range(9, 15), step=10, waste_schedule=waste_schedule)
 
     while True:
         if is_open():
-            # update_logger()
             [schedule.every().day.at(i).do(trend) for i in time_schedule]
 
             while True:

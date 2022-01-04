@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 
 from market_trend import generate_schedule
 from totalling_text_version import totalling
+from component.generate_schedule import generate_schedule
 
 load_dotenv()
 
@@ -42,8 +43,7 @@ def trend() -> None:
 
 # Create schedule
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
-time_schedule = generate_schedule(range(9, 15), waste_schedule)
-time_schedule.append("15:00")
+time_schedule = generate_schedule(range(9, 15), step=10, waste_schedule=waste_schedule)
 
 [schedule.every().day.at(i).do(trend) for i in time_schedule]
 
