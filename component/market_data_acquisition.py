@@ -25,7 +25,7 @@ class MarketDataAcquisition:
 
         result = []
 
-        max_page_num = self.category_max_page_num(category_number) + 1
+        max_page_num = self.category_max_page_num(category_number)
         bar = tqdm(total=max_page_num)
 
         if category_number == 1:
