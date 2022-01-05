@@ -10,98 +10,79 @@ from component.market_data_acquisition import MarketDataAcquisition
 
 
 def totalling() -> None:
-    MarketDataAcquisition().save()
-    
+    # Some Variables
+    columns = ["Range", "Market", "Rate", "Price", "Volume"]
+    oldest_text = ""
+    today = datetime.datetime.now().strftime("%Y/%m/%d")
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
 
-    up_path = f"./market_data/{month}/{day}_up.csv"
-    down_path = f"./market_data/{month}/{day}_down.csv"
+    # Data Download and Save CSV
+    MarketDataAcquisition().save()
 
+    # Read template text and replace "today" to "today"
+    with open("./data/totalling_template.txt", "r", encoding="utf-8") as f:
+        template = f.read()
+    result_text = template.replace("today", today)
+
+    # If the folder does not exist, create it.
     save_path = f"./totalling_data/{month}"
-
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
-    df_up = pd.read_csv(up_path)
-    df_down = pd.read_csv(down_path)
-
+    # Read CSV and DataFrame slice
+    df_up = pd.read_csv(f"./market_data/{month}/{day}_up.csv")
+    df_down = pd.read_csv(f"./market_data/{month}/{day}_down.csv")
     up_splited = df_slicer(df_up, 100)
     down_splited = df_slicer(df_down, 100)
 
-    range_text = "Range".center(13)
-    market_text = "Market".center(16)
-    median_text = "Rate".center(8)
-    price_text = "Price".center(9)
-    volume_text = "Volume".center(10)
-
-    oldest_list = [""]
-    oldest_text = ""
-
-    columns = ["Range", "Market", "Rate（％）", "Price（円）", "Volume"]
-
-    splited_list = [up_splited, down_splited]
-    for splited_index, splited in enumerate(splited_list):
-        if splited_index == 0:
-            print("\nUP")
-            print("≡≡≡≡≡")
-        else:
-            print("\nDOWN")
-            print("≡≡≡≡≡≡")
-
-        print(f"{range_text}|{median_text}|{price_text}|{volume_text}|{market_text}")
-        print("=" * 60)
-
+    # Main Process
+    up_down = {"up": up_splited, "down": down_splited}
+    for title, splited in up_down.items():
         oldest = [""]
-        result = []
+        graph_data = []
+        tmp_result = ""
 
         for i in range(len(splited)):
-            # rate
-            rate_data = splited[i]["rate"].to_list()
-            rate_median = round(statistics.median(rate_data), 2)
-            display_rate = str(rate_median).rjust(6)
-
-            # volume
-            volumes_data = splited[i]["volumes"].to_list()
-            volumes_median = round(statistics.median(volumes_data), 2)
-            display_volumes = str(volumes_median).rjust(8)
-            
-            # price
-            price_data = splited[i]["price"].to_list()
-            price_median = round(statistics.median(price_data), 2)
-            display_price = str(price_median).rjust(7)
-
-            # market
-            market_data = dict(splited[i]["market"].value_counts())
-            num_of_market = sum([v for v in market_data.values()])
-            most_num_market = next(iter(market_data))
-
-            rate_market = round((market_data[most_num_market] / num_of_market) * 100)
-            rate_market = str(rate_market).rjust(3)
-
-            oldest_text = most_num_market
-
-            if oldest[-1] == most_num_market:
-                most_num_market = "  〃   "
-
-            display_market = f"{most_num_market}({rate_market}%)"
-
-            # range
+            # Range
             start = str(i * 100 + 1).rjust(4)
             end = str((i + 1) * 100).rjust(4)
 
-            if not most_num_market == "マザーズ":
-                print(f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}")
-            else:
-                print(f" {start} ~ {end} | {display_rate} | {display_price} | {display_volumes} | {display_market}")
-            
-            # update value
+            # Rate, Volume, Price
+            common_line_data = ""
+            for column, space in zip(["rate", "price", "volumes"], range(6, 9)):
+                tmp_data = splited[i][column].to_list()
+                tmp_median = round(statistics.median(tmp_data), 2)
+                common_line_data += f" | {str(tmp_median).rjust(space)}"
+
+            # Market
+            market_data = dict(splited[i]["market"].value_counts())
+            num_of_market = sum([v for v in market_data.values()])
+            most_num_market = next(iter(market_data))
+            rate_market = round((market_data[most_num_market] / num_of_market) * 100)
+            rate_market = str(rate_market).rjust(3)
+
+            # Update the value, and if it is the same market as before, use the ellipsis
+            oldest_text = most_num_market
+            if oldest[-1] == most_num_market:
+                most_num_market = "  〃   "
             oldest.append(oldest_text)
 
-            save_market = f"{most_num_market}：{rate_market}%"
-            result.append([f"{start}〜{end}", save_market, rate_median, f"{price_median:,}", f"{volumes_median:,}"])
+            # Create the final string
+            market_line_data = f"{most_num_market}({rate_market}%)"
+            tmp_result += f"{start} ~ {end}{common_line_data} | {market_line_data}\n"
+            common_data = common_line_data.split(" | ")
 
-        df = pd.DataFrame(result, columns=columns)
+            graph_data.append([
+                f"{start}〜{end}", 
+                market_line_data, 
+                common_data[1], 
+                common_data[2], 
+                common_data[3]
+            ])
+
+        # Creat and Save Graphs
+        df = pd.DataFrame(graph_data, columns=columns)
 
         fig = plt.figure()
         plt.axis("off")
@@ -113,13 +94,16 @@ def totalling() -> None:
             bbox=[0, 0, 1, 1]
         )
 
-        today = datetime.datetime.now().strftime("%Y/%m/%d")
-        if splited_index == 0:
-            plt.title(f"{today} Up Totalling")
-            fig.savefig(f"{save_path}/{day}_up.png")
-        else:
-            plt.title(f"{today} Down Totalling")
-            fig.savefig(f"{save_path}/{day}_down.png")
+        plt.title(f"{title} Totalling {today}")
+        fig.savefig(f"{save_path}/{day}_{title}.png")
+
+        # Update "result_text"
+        result_text = result_text.replace("$$$", tmp_result, 1)
+
+    # Display and Save 
+    print(result_text)
+    with open(f"{save_path}/{day}.txt", "w", encoding="utf-8") as f:
+        f.write(result_text)
 
 if __name__ == "__main__":
     totalling()
