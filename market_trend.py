@@ -21,6 +21,17 @@ client = tweepy.Client(
     os.environ["ACCESS_TOKEN_SECRET"]
 )
 
+def logger(message: str):
+    now = datetime.datetime.now()
+    log = f"{now} | {message}"
+    print(log)
+
+    this_year_month = datetime.datetime.now().strftime("%Y_%m")
+    path = f"./logs/{this_year_month}.log"
+
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(f"{log}\n")
+
 def trend() -> None:
     global ALL_COMPANIES
     global oldest_month 
@@ -43,10 +54,10 @@ def trend() -> None:
     up_rate = round(up_rate * 100, 3)
 
     now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
-    message = f"{now} | UP: {up_rate} | DOWN: {down_rate}"
+    message = f"{up_rate} | {down_rate}"
     twitter_message = f"{now}\nUP：{up_rate}\nDOWN：{down_rate}"
 
-    print(message)
+    logger(message)
     
     # Twitter bot
     client.create_tweet(text=twitter_message)
