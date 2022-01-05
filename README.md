@@ -18,8 +18,6 @@
 
 ![totalling sample image](./images/totalling_sample.png)
 
-When you run `totalling_text_version.py`, the following text file will be created.
-
 ```
 
     2022/01/04
