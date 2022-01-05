@@ -21,7 +21,7 @@ def market_holidays(year: str, path: str) -> None:
 def is_open() -> bool:
     year = str(datetime.datetime.now().year)
     
-    path = f"./data/{year}.txt"
+    path = f"../data/{year}.txt"
     if not os.path.exists(path):
         market_holidays(year, path)
     
