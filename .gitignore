@@ -1,0 +1,10 @@
+__pycache__/
+.DS_Store
+.env
+
+logs/
+data/data_j.*
+market_data/
+totalling_data/
+
+!package/.env

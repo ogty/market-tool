@@ -1,0 +1,9 @@
+bs4
+requests
+schedule
+pandas
+matplotlib
+japanize-matplotlib
+yahoo-finance-api2
+tqdm
+xlrd
