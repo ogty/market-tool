@@ -7,7 +7,7 @@ import requests
 import datetime
 from bs4 import BeautifulSoup
 
-from totalling_text_version import totalling
+from totalling import totalling
 from component.generate_schedule import generate_schedule
 
 load_dotenv()

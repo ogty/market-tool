@@ -5,7 +5,7 @@ import sys
 
 from component.loading import loading_spinner
 from component.generate_schedule import generate_schedule
-from totalling_text_version import totalling
+from totalling import totalling
 from market_trend import is_open, trend
 
 
