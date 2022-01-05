@@ -3,7 +3,7 @@ import matplotlib.gridspec as gridspec
 import statistics
 
 
-with open("./data/hv.txt", "r", encoding="utf-8") as f:
+with open("../data/hv.txt", "r", encoding="utf-8") as f:
     data = [float(i.rstrip("\n")) for i in f]
 
 data = [i for i in data if not i > 100]
@@ -35,4 +35,4 @@ ax.legend()
 ax.grid()
 
 # plt.show()
-fig.savefig("./images/historical_volatility_distribution.png")
+fig.savefig("../images/historical_volatility_distribution.png")

@@ -1,10 +1,13 @@
 import pandas as pd
 import inspect
+import os
 
 
 class Analizer:
     def __init__(self, codes: list, rate=False, n=3, err=False, ranking=True, ranking_reverse=True, delete_empty=True) -> None:
-        df = pd.read_csv("./data/data_j.csv")
+        current_directory_path = os.getcwd()
+        parent_directory_path = os.path.abspath(os.path.join(current_directory_path, os.pardir))
+        df = pd.read_csv(f"{parent_directory_path}\\data\\data_j.csv")
         self.df = df
 
         self.codes = codes

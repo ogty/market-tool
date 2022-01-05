@@ -6,7 +6,9 @@ import time
 import schedule
 import os
 import datetime
+import sys
 
+sys.path.append("../")
 from component.generate_schedule import generate_schedule
 
 
@@ -15,7 +17,7 @@ class JudgeShortSaleCode:
     def __init__(self, category_number: int, download=True, path="") -> None:
         self.category_number = category_number
         self.df = pd.DataFrame()
-        self.data_j = pd.read_csv("./data/data_j.csv")
+        self.data_j = pd.read_csv("../data/data_j.csv")
         self.columns = ["銘柄名", "市場・商品区分", "33業種区分"]
 
         if download:
@@ -107,7 +109,7 @@ def matched() -> None:
     print(now)
     print(up)
 
-with open("./data/short_sale_codes.txt", "r", encoding="utf-8") as f:
+with open("../data/short_sale_codes.txt", "r", encoding="utf-8") as f:
     short_sale_codes = [int(code.rstrip()) for code in f]
 
 waste_schedule = ["11:30", "12:00"]
