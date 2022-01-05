@@ -18,8 +18,6 @@
 
 ![totalling sample image](./images/totalling_sample.png)
 
-When you run `totalling_text_version.py`, the following text file will be created.
-
 ```
 
     2022/01/04
@@ -75,7 +73,7 @@ DOWN
  2101 ~ 2200 | -21.43 |  1029.0 | 672450.0 |   〃   (100%)
 ```
 
-"totalling.py" will provide you with some values based on the rising and falling rate rankings for the day you run it.
+`totalling.py` will provide you with some values based on the rising and falling rate rankings for the day you run it.
 "Range" represents the interval between the rankings, and you may think of it as a rank value.
 The corresponding data are Rate, Price, Volume, and Market.
 
