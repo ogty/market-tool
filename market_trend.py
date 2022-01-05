@@ -38,7 +38,7 @@ def trend() -> None:
     result = data[0].text
     up_companies = result.split("/")[1].replace("件中", "")
     
-    up_rate = (up_companies) / ALL_COMPANIES
+    up_rate = up_companies / ALL_COMPANIES
     down_rate = round((1.0 - up_rate) * 100, 3)
     up_rate = round(up_rate * 100, 3)
 
