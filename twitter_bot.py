@@ -7,7 +7,6 @@ import requests
 import datetime
 from bs4 import BeautifulSoup
 
-from market_trend import generate_schedule
 from totalling_text_version import totalling
 from component.generate_schedule import generate_schedule
 

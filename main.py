@@ -10,6 +10,7 @@ from market_trend import is_open, trend
 
 
 # Create schedule
+# TODO: include start and end(default)??
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
 time_schedule = generate_schedule(range(9, 15), step=10, waste_schedule=waste_schedule)
 

@@ -2,6 +2,12 @@ from bs4 import BeautifulSoup
 import requests
 from tqdm import tqdm
 import pandas as pd
+import time
+import schedule
+import os
+import datetime
+
+from component.generate_schedule import generate_schedule
 
 
 # TODO: Too much use of int
@@ -75,7 +81,10 @@ class JudgeShortSaleCode:
             selected_df = self.df[(self.df["rate"] <= rate) & (self.df["price"] >= price)]
 
         selected_codes = selected_df["code"].tolist()
-        result = list(map(lambda x: int(x) if int(x) in codes else False, selected_codes))
+        result = list(map(lambda x: int(x) if int(x) in codes else None, selected_codes))
+
+        for _ in range(result.count(None)):
+            result.remove(None)
 
         if campany_info:
             tmp = []
@@ -91,8 +100,20 @@ class JudgeShortSaleCode:
         else:
             return result
 
+def matched() -> None:
+    os.system("cls")
+    up = JudgeShortSaleCode(1).select(short_sale_codes, 5000, 3)
+    now = datetime.datetime.now()
+    print(now)
+    print(up)
+
 with open("./data/short_sale_codes.txt", "r", encoding="utf-8") as f:
     short_sale_codes = [int(code.rstrip()) for code in f]
 
-down = JudgeShortSaleCode(2).select(short_sale_codes, 5000, -5, campany_info=True)
-print(down)
+waste_schedule = ["11:30", "12:00"]
+time_schedule = generate_schedule(range(9, 15), step=30, waste_schedule=waste_schedule)
+[schedule.every().day.at(i).do(matched) for i in time_schedule]
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)

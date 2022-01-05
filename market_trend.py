@@ -38,13 +38,16 @@ def trend() -> None:
     result = data[0].text
     up_companies = result.split("/")[1].replace("件中", "")
     
-    up_rate = round((int(up_companies) / ALL_COMPANIES) * 100, 3)
+    up_rate = (up_companies) / ALL_COMPANIES
     down_rate = round((1.0 - up_rate) * 100, 3)
+    up_rate = round(up_rate * 100, 3)
 
     now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
     message = f"{now} | UP: {up_rate} | DOWN: {down_rate}"
     twitter_message = f"{now}\nUP：{up_rate}\nDOWN：{down_rate}"
 
+    print(message)
+    
     # Twitter bot
     client.create_tweet(text=twitter_message)
 
