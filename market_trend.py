@@ -8,6 +8,7 @@ import requests
 import tweepy
 
 from component.download_update import download_update
+import settings
 
 
 load_dotenv()
@@ -28,9 +29,7 @@ def logger(message: str) -> None:
     print(log)
 
     this_year_month = datetime.datetime.now().strftime("%Y_%m")
-    path = f"./logs/{this_year_month}.log"
-
-    with open(path, "a", encoding="utf-8") as f:
+    with open(os.path.join(settings.LOGS_DIR, f"{this_year_month}.log"), "a", encoding="utf-8") as f:
         f.write(f"{log}\n")
 
 def trend() -> None:
@@ -91,7 +90,7 @@ def market_holidays(year: str, path: str) -> None:
 def is_open() -> bool:
     year = str(datetime.datetime.now().year)
     
-    path = f"./data/{year}.txt"
+    path = os.path.join(settings.DATA_DIR, f"{year}.txt")
     if not os.path.exists(path):
         market_holidays(year, path)
     

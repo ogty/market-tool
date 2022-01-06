@@ -8,6 +8,7 @@ import japanize_matplotlib
 
 from component.dataframe_slicer import df_slicer
 from component.market_data_acquisition import MarketDataAcquisition
+import settings
 
 
 def totalling() -> None:
@@ -15,25 +16,26 @@ def totalling() -> None:
     columns = ["Range", "Market", "Rate", "Price", "Volume"]
     oldest_text = ""
     today = datetime.datetime.now().strftime("%Y/%m/%d")
-    month = datetime.datetime.now().month
+    month = str(datetime.datetime.now().month)
     day = datetime.datetime.now().day
 
     # Data Download and Save CSV
     MarketDataAcquisition().save()
 
     # Read template text and replace "today" to "today"
-    with open("./data/totalling_template.txt", "r", encoding="utf-8") as f:
+    with open(os.path.join(settings.DATA_DIR, "totalling_template.txt"), "r", encoding="utf-8") as f:
         template = f.read()
     result_text = template.replace("today", today)
 
     # If the folder does not exist, create it.
-    save_path = f"./totalling_data/{month}"
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
+    TOTALLING_DATA_SAVE_PATH = os.path.join(settings.TOTALLING_DATA_DIR, month)
+    if not os.path.exists(TOTALLING_DATA_SAVE_PATH):
+        os.makedirs(TOTALLING_DATA_SAVE_PATH)
 
     # Read CSV and DataFrame slice
-    df_up = pd.read_csv(f"./market_data/{month}/{day}_up.csv")
-    df_down = pd.read_csv(f"./market_data/{month}/{day}_down.csv")
+    MARKET_DATA_SAVE_DIR = os.path.join(settings.MARKET_DATA_DIR, month)
+    df_up = pd.read_csv(os.path.join(MARKET_DATA_SAVE_DIR, f"{day}_up.csv"))
+    df_down = pd.read_csv(os.path.join(MARKET_DATA_SAVE_DIR, f"{day}_down.csv"))
     up_splited = df_slicer(df_up, 100)
     down_splited = df_slicer(df_down, 100)
 
@@ -96,14 +98,14 @@ def totalling() -> None:
         )
 
         plt.title(f"{title.capitalize()} Totalling {today}")
-        fig.savefig(f"{save_path}/{day}_{title}.png")
+        fig.savefig(os.path.join(TOTALLING_DATA_SAVE_PATH, f"{day}_{title}.png"))
 
         # Update "result_text"
         result_text = result_text.replace("$$$", tmp_result, 1)
 
     # Display and Save 
     print(result_text)
-    with open(f"{save_path}/{day}.txt", "w", encoding="utf-8") as f:
+    with open(os.path.join(TOTALLING_DATA_SAVE_PATH, f"{day}.txt"), "w", encoding="utf-8") as f:
         f.write(result_text)
 
 if __name__ == "__main__":

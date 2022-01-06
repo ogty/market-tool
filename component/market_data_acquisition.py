@@ -6,6 +6,8 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 
+from settings import MARKET_DATA_DIR
+
 
 class MarketDataAcquisition:
     def category_max_page_num(self, category_number: int) -> int:
@@ -71,12 +73,12 @@ class MarketDataAcquisition:
     def save(self, connect=False) -> None:
         columns = ["code", "market", "price", "rate", "volumes"]
 
-        month = datetime.datetime.now().month
+        month = str(datetime.datetime.now().month)
         day = datetime.datetime.now().day
-        month_path = f"./market_data/{month}"
+        MONTH_PATH = os.path.join(MARKET_DATA_DIR, month)
 
-        if not os.path.exists(month_path):
-            os.makedirs(month_path)
+        if not os.path.exists(MONTH_PATH):
+            os.makedirs(MONTH_PATH)
             
         up = self.ranking_data(1)
         down = self.ranking_data(2)
@@ -84,11 +86,10 @@ class MarketDataAcquisition:
         if connect:
             result = up + down
             df = pd.DataFrame(result, columns=columns)
-
-            df.to_csv(f"{month_path}/{day}.csv", index=False)
+            df.to_csv(os.path.join(MONTH_PATH, f"{day}.csv"), index=False)
         else:
             df_up = pd.DataFrame(up, columns=columns)
             df_down = pd.DataFrame(down, columns=columns)
 
-            df_up.to_csv(f"{month_path}/{day}_up.csv", index=False)
-            df_down.to_csv(f"{month_path}/{day}_down.csv", index=False)
+            df_up.to_csv(os.path.join(MONTH_PATH, f"{day}_up.csv"), index=False)
+            df_down.to_csv(os.path.join(MONTH_PATH, f"{day}_down.csv"), index=False)

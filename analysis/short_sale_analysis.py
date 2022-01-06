@@ -1,10 +1,12 @@
+import os
 import sys
 
 sys.path.append("../")
 from component.analizer import Analizer
+from settings import DATA_DIR
 
 
-with open("../data/short_sale_codes.txt", "r", encoding="utf-8") as f:
+with open(os.path.join(DATA_DIR, "short_sale_codes.txt"), "r", encoding="utf-8") as f:
     codes = [int(code.rstrip()) for code in f]
 
 analizer = Analizer(codes)

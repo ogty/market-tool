@@ -5,10 +5,12 @@ import time
 from dotenv import load_dotenv
 from selenium import webdriver
 
+from settings import DATA_DIR
+
 load_dotenv()
 
 
-x_path = open("./data/x_path.json", "r", encoding="utf-8")
+x_path = open(os.path.join(DATA_DIR, "x_path.json"), "r", encoding="utf-8")
 config = json.load(x_path)
 
 

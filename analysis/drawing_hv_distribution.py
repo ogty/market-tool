@@ -1,9 +1,13 @@
+import os
+
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import statistics
 
+import settings
 
-with open("../data/hv.txt", "r", encoding="utf-8") as f:
+
+with open(os.path.join(settings.DATA_DIR, "hv.txt"), "r", encoding="utf-8") as f:
     data = [float(i.rstrip("\n")) for i in f]
 
 data = [i for i in data if not i > 100]
@@ -35,4 +39,4 @@ ax.legend()
 ax.grid()
 
 # plt.show()
-fig.savefig("../images/historical_volatility_distribution.png")
+fig.savefig(os.path.join(settings.IMAGES_DIR, "historical_volatility_distribution.png"))

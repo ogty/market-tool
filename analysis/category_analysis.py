@@ -1,3 +1,4 @@
+import os
 import sys
 
 import pandas as pd
@@ -7,12 +8,13 @@ import japanize_matplotlib
 sys.path.append("../")
 from component.analizer import Analizer
 from component.dataframe_slicer import df_slicer
+from settings import MARKET_DATA_DIR
 
 
 # analizer = Analizer([])
 # print(analizer.distribution("市場第一部（内国株）", "マザーズ（内国株）"))
 
-df_up = pd.read_csv("..\\market_data\\1\\4_up.csv")
+df_up = pd.read_csv(os.path.join(MARKET_DATA_DIR, "1", "4_up.csv"))
 splited_dfs = df_slicer(df_up, 100)
 
 for i, splited_df in enumerate(splited_dfs[:]):
