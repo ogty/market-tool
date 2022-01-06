@@ -9,7 +9,6 @@
 
 ### 機能
 
- - [x] 自動売買
  - [x] 市場集計
  - [x] 営業日判定
  - [x] 市場トレンド取得
@@ -28,7 +27,6 @@
 │  └─...
 ├─.env
 ├─.gitignore
-├─automatic_trading.py
 ├─main.py
 ├─README.md
 ├─requirements.txt
