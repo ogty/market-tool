@@ -58,7 +58,7 @@
 `Range`は階級を表しており、「`Rate`, `Price`, `Vollume`」はそれぞれの階級における中央値を表す。
 `Market`は階級の中で一番多く割合を占めていた市場の名称と、その割合を示す。
 
-![totalling sample image](../data/images/totalling_sample.png)
+![totalling sample image](../data/totalling_sample.png)
 
 ```
 2022/01/04
@@ -118,4 +118,4 @@ DOWN
 
 ### `historical_volatirity`
 
-![hv](../data/images/historical_volatility.png)
+![hv](../data/historical_volatility.png)
