@@ -1,9 +1,9 @@
 bs4
+japanize-matplotlib
+matplotlib
+pandas
 requests
 schedule
-pandas
-matplotlib
-japanize-matplotlib
-yahoo-finance-api2
 tqdm
 xlrd
+yahoo-finance-api2
