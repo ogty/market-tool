@@ -15,7 +15,7 @@ def generate_schedule(hour_list: list, step=30, include=True, delimiter=":", add
         else:
             time_schedule.append(f"{hour_list[-1] + 1}:00")
     
-    # Addition and Sort time schedule
+    # Add and Sort
     for add_schedule in addition:
         time_schedule.append(add_schedule)
 
