@@ -49,9 +49,9 @@ def trend() -> None:
     result = data[0].text
     up_companies = result.split("/")[1].replace("件中", "")
     
-    up_rate = up_companies / ALL_COMPANIES
-    down_rate = round((1.0 - up_rate) * 100, 3)
-    up_rate = round(up_rate * 100, 3)
+    up_rate = int(up_companies) / ALL_COMPANIES
+    down_rate = str(round((1.0 - up_rate) * 100, 3)).ljust(5)
+    up_rate = str(round(up_rate * 100, 3)).ljust(5)
 
     now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
     message = f"{up_rate} | {down_rate}"
