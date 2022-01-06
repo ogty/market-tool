@@ -1,12 +1,13 @@
+import datetime
+import os
+import sys
+import time
+
 from bs4 import BeautifulSoup
 import requests
 from tqdm import tqdm
 import pandas as pd
-import time
 import schedule
-import os
-import datetime
-import sys
 
 sys.path.append("../")
 from component.generate_schedule import generate_schedule

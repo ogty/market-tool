@@ -1,8 +1,9 @@
-from bs4 import BeautifulSoup
 import datetime
-from dotenv import load_dotenv
 import json
 import os
+
+from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 import requests
 import tweepy
 

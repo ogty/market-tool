@@ -1,6 +1,7 @@
-import pandas as pd
 import inspect
 import os
+
+import pandas as pd
 
 
 class Analizer:

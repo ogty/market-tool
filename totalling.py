@@ -1,7 +1,8 @@
-import pandas as pd
 import datetime
-import statistics
 import os
+
+import pandas as pd
+import statistics
 import matplotlib.pyplot as plt
 import japanize_matplotlib
 

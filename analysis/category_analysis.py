@@ -1,7 +1,8 @@
+import sys
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import japanize_matplotlib
-import sys
 
 sys.path.append("../")
 from component.analizer import Analizer

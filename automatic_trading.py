@@ -1,10 +1,12 @@
-from dotenv import load_dotenv
 import json
 import os
-from selenium import webdriver
 import time
 
+from dotenv import load_dotenv
+from selenium import webdriver
+
 load_dotenv()
+
 
 x_path = open("./data/x_path.json", "r", encoding="utf-8")
 config = json.load(x_path)

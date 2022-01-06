@@ -1,7 +1,8 @@
-import schedule
 import time
 import datetime
 import sys
+
+import schedule
 
 from component.loading import loading_spinner
 from component.generate_schedule import generate_schedule
