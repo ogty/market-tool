@@ -12,15 +12,13 @@ from src import (
 )
 
 
-# Create schedule
 waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
 time_schedule = gs.generate_schedule(range(9, 15), step=10, delete=waste_schedule)
-
-loading = loading.loading_spinner()
 
 oldest_day = datetime.datetime.now().day
 latest_day = 0
 
+loading = loading.loading_spinner()
 while True:
     if mt.is_open():
         today = datetime.datetime.now().strftime("%Y/%m/%d")
@@ -30,11 +28,10 @@ while True:
         schedule.every().day.at("15:05").do(totalling.totalling)
 
         while True:
-            latest_day = datetime.datetime.now().day
-
             schedule.run_pending()
             time.sleep(1)
-
+            
+            latest_day = datetime.datetime.now().day
             if latest_day != oldest_day:
                 break
         
