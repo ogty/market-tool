@@ -2,7 +2,6 @@ import datetime
 
 import pandas as pd
 from yahoo_finance_api2 import share
-import matplotlib.pyplot as plt
 
 
 def data_acquisition(code: str or int) -> pd.DataFrame:

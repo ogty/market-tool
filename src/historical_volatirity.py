@@ -1,5 +1,4 @@
 import numpy as np
-import statistics
 import pandas as pd
 from yahoo_finance_api2 import share
 
