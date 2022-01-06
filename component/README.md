@@ -1,3 +1,7 @@
+# Component
+
+### ファイルの説明
+
  - `analizer` : 業種・市場を分析
  - `bollinger_band_counter` : 複数銘柄の最新の終値のボリンジャーバンドを集計
  - `code_acqusition` :  選択したカテゴリーの全てのコードを取得
@@ -13,6 +17,8 @@
 ***
 
 ### `generate_schedule`
+
+#### 引数について
 
  - `fill(True)`：`0`で埋めるかどうかを指定できます。
  - `addition`：時間を追加できます。「`'09:05'`, `'9:5'`」のどちらでも指定可能です。
@@ -41,5 +47,7 @@
 ```
 
 ***
+
+### ヒストリカルボラティリティの計算式
 
 ![hv](../images/historical_volatility.png)
