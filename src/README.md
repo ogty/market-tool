@@ -11,8 +11,10 @@
  - `historical_volatirity` : ヒストリカルボラティリティを計算
  - `loading` : ローディングを実装
  - `market_data_acquisition` : `code_acqusition`の拡張版で、コードだけでなく価格や出来高を取得
+ - `market_trend` : 市場のトレンド取得、営業日判定、Twitter・Slackボット
  - `stock_data_acquisition` : 任意の銘柄の始値や終値などを取得
  - `text_length_counter` : 全角・半角の長さを取得
+ - `totalling` : 市場を集計
 
 ***
 
@@ -50,15 +52,13 @@
 
 ***
 
-### ヒストリカルボラティリティの計算式
+### `totalling`
 
-![hv](../images/historical_volatility.png)
+`totalling`を実行することで、以下の画像とテキストデータを取得できる。
+`Range`は階級を表しており、「`Rate`, `Price`, `Vollume`」はそれぞれの階級における中央値を表す。
+`Market`は階級の中で一番多く割合を占めていた市場の名称と、その割合を示す。
 
-***
-
-### Totalling Sample Image
-
-![totalling sample image](../images/totalling_sample.png)
+![totalling sample image](../data/images/totalling_sample.png)
 
 ```
 2022/01/04
@@ -113,3 +113,9 @@ DOWN
  2001 ~ 2100 |   -4.4 |  1405.0 | 123500.0 | マザーズ( 43%)
  2101 ~ 2200 | -21.43 |  1029.0 | 672450.0 |    〃   (100%)
 ```
+
+***
+
+### `historical_volatirity`
+
+![hv](../data/images/historical_volatility.png)
