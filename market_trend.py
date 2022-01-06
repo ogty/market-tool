@@ -21,7 +21,7 @@ client = tweepy.Client(
     os.environ["ACCESS_TOKEN_SECRET"]
 )
 
-def logger(message: str):
+def logger(message: str) -> None:
     now = datetime.datetime.now()
     log = f"{now} | {message}"
     print(log)
