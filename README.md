@@ -9,13 +9,11 @@
 
 ### 機能
 
- - Automatic Trading
- - Totalling Market
- - Judge Open or Close
- - Get Market Trend
- - Useful Components
- - Twitter Bot
- - Slack Bot
+ - 自動売買
+ - 市場集計
+ - 営業日判定
+ - 市場トレンド取得
+ - Twitter・Slackボット
 
 ***
 
