@@ -33,7 +33,7 @@ class MarketDataAcquisition:
         else:
             bar.set_description("Down")
 
-        for i in range(1, max_page_num):
+        for i in range(1, max_page_num + 1):
             url = f"https://info.finance.yahoo.co.jp/ranking/?kd={category_number}&tm=d&vl=a&mk=1&p={i}"
             html = requests.get(url)
             soup = BeautifulSoup(html.content, "html.parser")

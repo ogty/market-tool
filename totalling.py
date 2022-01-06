@@ -94,7 +94,7 @@ def totalling() -> None:
             bbox=[0, 0, 1, 1]
         )
 
-        plt.title(f"{title} Totalling {today}")
+        plt.title(f"{title.capitalize()} Totalling {today}")
         fig.savefig(f"{save_path}/{day}_{title}.png")
 
         # Update "result_text"
