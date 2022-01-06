@@ -21,7 +21,6 @@
 
 ```
 ├─data
-│  ├─images
 │  ├─logs
 │  ├─market_data
 │  └─totalling_data
