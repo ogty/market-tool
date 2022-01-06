@@ -6,8 +6,8 @@ import statistics
 import matplotlib.pyplot as plt
 import japanize_matplotlib
 
-from component.dataframe_slicer import df_slicer
-from component.market_data_acquisition import MarketDataAcquisition
+from src.dataframe_slicer import df_slicer
+from src.market_data_acquisition import MarketDataAcquisition
 import settings
 
 

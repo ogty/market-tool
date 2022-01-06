@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import requests
 import tweepy
 
-from component.download_update import download_update
+from src.download_update import download_update
 import settings
 
 
@@ -28,6 +28,9 @@ def logger(message: str) -> None:
     log = f"{now} | {message}"
     print(log)
 
+    if not os.path.exists(settings.LOGS_DIR):
+        os.makedirs(settings.LOGS_DIR)
+        
     this_year_month = datetime.datetime.now().strftime("%Y_%m")
     with open(os.path.join(settings.LOGS_DIR, f"{this_year_month}.log"), "a", encoding="utf-8") as f:
         f.write(f"{log}\n")
