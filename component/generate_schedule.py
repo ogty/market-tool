@@ -13,9 +13,9 @@ def generate_schedule(hour_list: list, step=30, include=True, fill=True, delimit
             pass
         else:
             if fill:
-                time_schedule.append(f"{hour_list[-1] + 1}:00")
+                time_schedule.append(f"{hour_list[-1] + 1}{delimiter}00")
             else:
-                time_schedule.append(f"{hour_list[-1] + 1}:0")
+                time_schedule.append(f"{hour_list[-1] + 1}{delimiter}0")
 
     # Add and Sort
     for add_schedule in addition:
@@ -23,7 +23,7 @@ def generate_schedule(hour_list: list, step=30, include=True, fill=True, delimit
 
     one_twentyfour = {k: [] for k in range(25)}
     for ts in time_schedule:
-        ts_splited = ts.split(":")
+        ts_splited = ts.split(f"{delimiter}")
         for hour in one_twentyfour.keys():
             if int(ts_splited[0]) == hour:
                 one_twentyfour[hour].append(int(ts_splited[1]))
@@ -36,7 +36,7 @@ def generate_schedule(hour_list: list, step=30, include=True, fill=True, delimit
                 hour = str(hour).zfill(2)
                 minute = str(minute).zfill(2)
 
-            time_schedule.append(f"{hour}:{minute}")
+            time_schedule.append(f"{hour}{delimiter}{minute}")
 
     # Delete schedule
     for del_schedule in delete:
