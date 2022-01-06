@@ -55,7 +55,7 @@ def trend() -> None:
 
     now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
     message = f"{up_rate} | {down_rate}"
-    twitter_message = f"{now}\nUP：{up_rate}\nDOWN：{down_rate}"
+    twitter_message = f"{now}\n　UP　：{up_rate}%\nDOWN：{down_rate}%"
 
     logger(message)
     
