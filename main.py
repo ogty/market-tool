@@ -20,7 +20,8 @@ latest_day = 0
 loading = loading.loading_spinner()
 while True:
     if mt.is_open():
-        print(f"\n\n{datetime.datetime.now().strftime('%Y/%m/%d')}")
+        today = datetime.datetime.now().strftime('%Y/%m/%d')
+        print(f"\n\n{today}")
 
         [schedule.every().day.at(i).do(mt.trend) for i in time_schedule]
         schedule.every().day.at("15:05").do(totalling.totalling)
