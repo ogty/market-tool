@@ -4,10 +4,12 @@ import os
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+import pandas as pd
 import requests
 import tweepy
 
 from src.download_update import download_update
+from src.analizer import Analizer
 import settings
 
 
@@ -110,3 +112,23 @@ def is_open() -> bool:
             return False
     else:
         return False
+
+def category_totalling() -> None:
+    year = str(datetime.datetime.now().year)
+    month = str(datetime.datetime.now().month)
+    day = datetime.datetime.now().day
+    df = pd.read_csv(os.path.join(settings.MARKET_DATA_DIR, month, f"{day}_up.csv"))
+
+    codes = df["code"].tolist()
+    result = Analizer(codes).category()
+    del result["-"]
+
+    num_of_stocks = sum([i for i in result.values()])
+    message = """"""
+    message += f"{year}年{month}月{day}日に上昇した銘柄数：{num_of_stocks}\n\n"
+
+    for category_name, category_value in result.items():
+        if category_value > 10:
+            message += f"{category_name}：{category_value}\n"
+
+    client.create_tweet(text=message)

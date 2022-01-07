@@ -24,6 +24,7 @@ while True:
 
         [schedule.every().day.at(i).do(mt.trend) for i in time_schedule]
         schedule.every().day.at("15:05").do(totalling.totalling)
+        schedule.every().day.at("15:06").do(mt.category_totalling)
 
         while True:
             schedule.run_pending()
