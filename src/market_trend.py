@@ -10,6 +10,7 @@ import tweepy
 
 from src.download_update import download_update
 from src.analizer import Analizer
+from src.text_length_counter import text_length_counter
 import settings
 
 
@@ -123,12 +124,17 @@ def category_totalling() -> None:
     result = Analizer(codes).category()
     del result["-"]
 
+    messages = [f"{category_name}：{category_value}" for category_name, category_value in result.items()]
     num_of_stocks = sum([i for i in result.values()])
-    message = """"""
-    message += f"{year}年{month}月{day}日に上昇した銘柄数：{num_of_stocks}\n\n"
+    messages.insert(0, f"{year}年{month}月{day}日に上昇した銘柄数：{num_of_stocks}\n")
 
-    for category_name, category_value in result.items():
-        if category_value > 10:
-            message += f"{category_name}：{category_value}\n"
+    message_count = 0
+    result = []
+    for message in messages:
+        if message_count > 240:
+            break
+        else:
+            message_count += text_length_counter(message)
+            result.append(message)
 
-    client.create_tweet(text=message)
+    client.create_tweet(text="\n".join(result))
