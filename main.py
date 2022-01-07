@@ -5,15 +5,14 @@ import sys
 import schedule
 
 from src import (
-    generate_schedule as gs,
+    schedule_generator as sg,
     loading,
     market_trend as mt,
     totalling
 )
 
 
-waste_schedule = ["11:40", "11:50", "12:00", "12:10", "12:20"]
-time_schedule = gs.generate_schedule(range(9, 15), step=10, delete=waste_schedule)
+time_schedule = sg.ScheduleGenerator(range(9, 15), step=5).delete(start="11:35", end="12:30")
 
 oldest_day = datetime.datetime.now().day
 latest_day = 0
