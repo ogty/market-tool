@@ -56,7 +56,6 @@ class Analizer:
 
     def common(self) -> dict:
         caller = str(inspect.stack()[1].function)
-
         if caller == "category":
             target = "33業種区分"
         elif caller == "market":
@@ -79,10 +78,8 @@ class Analizer:
         
         if self.rate:
             result = {k: round(v / df_data[k], self.n) for k, v in result.items()}
-
         if self.delete_empty:
             result = self._delete_empty(result)
-
         if self.ranking:
             result = self._ranking(result)
 
