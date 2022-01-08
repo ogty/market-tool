@@ -43,8 +43,8 @@
 >>> ScheduleGenerator(range(8, 10), fill=False, include=False)
 ['8:0', '8:30', '9:0', '9:30']
 
->>> ScheduleGenerator(range(9, 11)).addition(['09:05'])
-['09:00', '09:05', '09:30', '10:00', '10:30', '11:00']
+>>> ScheduleGenerator(range(9, 11)).addition(add_schedules=['09:15'])
+['09:00', '09:15', '09:30', '10:00', '10:30', '11:00']
 
 >>> ScheduleGenerator(range(9, 15)).delete(del_schedules=['11:30', '12:00', '12:30'])
 ['09:00', '09:30', '10:00', '10:30', '11:00', '13:00', '13:30', '14:00', '14:30', '15:00']
