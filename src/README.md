@@ -1,5 +1,3 @@
-# Component
-
 ### ファイルの説明
 
  - `analizer` : 業種・市場を分析
