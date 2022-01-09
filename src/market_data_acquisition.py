@@ -70,7 +70,7 @@ class MarketDataAcquisition:
 
         return result
 
-    def save(self, connect=False) -> None:
+    def save(self, connect: bool=False) -> None:
         columns = ["code", "market", "price", "rate", "volumes"]
 
         month = str(datetime.datetime.now().month)

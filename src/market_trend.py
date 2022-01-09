@@ -26,6 +26,7 @@ client = tweepy.Client(
     os.environ["ACCESS_TOKEN_SECRET"]
 )
 
+
 def logger(message: str) -> None:
     now = datetime.datetime.now()
     log = f"{now} | {message}"
@@ -37,6 +38,7 @@ def logger(message: str) -> None:
     this_year_month = datetime.datetime.now().strftime("%Y_%m")
     with open(os.path.join(settings.LOGS_DIR, f"{this_year_month}.log"), "a", encoding="utf-8") as f:
         f.write(f"{log}\n")
+
 
 def trend() -> None:
     global ALL_COMPANIES
@@ -79,6 +81,7 @@ def trend() -> None:
         )
     )
 
+
 def market_holidays(year: str, path: str) -> None:
     url = "https://www.jpx.co.jp/corporate/about-jpx/calendar/index.html"
     html = requests.get(url)
@@ -92,6 +95,7 @@ def market_holidays(year: str, path: str) -> None:
     with open(path, "w", encoding="utf-8") as f:
         for holiday in holidays:
             f.write(f"{holiday}\n")
+
 
 def is_open() -> bool:
     year = str(datetime.datetime.now().year)
@@ -113,6 +117,7 @@ def is_open() -> bool:
             return False
     else:
         return False
+
 
 def category_totalling() -> None:
     year = str(datetime.datetime.now().year)

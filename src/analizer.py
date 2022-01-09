@@ -7,7 +7,16 @@ from settings import DATA_DIR
 
 
 class Analizer:
-    def __init__(self, codes: list, rate=False, n=3, err=False, ranking=True, ranking_reverse=True, delete_empty=True) -> None:
+    def __init__(
+        self, 
+        codes: list, 
+        rate: bool=False, 
+        n: int=3, 
+        err: bool=False, 
+        ranking: bool=True, 
+        ranking_reverse: bool=True, 
+        delete_empty: bool=True
+    ) -> None:
         df = pd.read_csv(os.path.join(DATA_DIR, "data_j.csv"))
         self.df = df
 

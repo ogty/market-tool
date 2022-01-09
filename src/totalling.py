@@ -108,5 +108,6 @@ def totalling() -> None:
     with open(os.path.join(TOTALLING_DATA_SAVE_PATH, f"{day}.txt"), "w", encoding="utf-8") as f:
         f.write(result_text)
 
+
 if __name__ == "__main__":
     totalling()
