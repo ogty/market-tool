@@ -7,7 +7,6 @@ from .stock_data_acquisition import data_acquisition
 # std: Standard Diviation
 def bb_counter(codes: list) -> dict:
     data = {}
-
     for code in codes:
         df = data_acquisition(code)
         bb = pd.DataFrame()

@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 
+from settings import RE_MAX_PAGE_NUM
+
 
 class CodeAcquisition:
     def __init__(self, cateogry_number: int) -> None:
@@ -11,8 +13,9 @@ class CodeAcquisition:
         url = f"https://info.finance.yahoo.co.jp/ranking/?kd={self.cateogry_number}&tm=d&vl=a&mk=1&p=1"
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
-        tag = soup.select("[class='ymuiPagingBottom clearFix']")
-        result = int(tag[0].text.split("...")[1].rstrip("次へ"))
+        data = soup.select("[class='ymuiPagingBottom clearFix']")
+        match = RE_MAX_PAGE_NUM.search(data[0].text)
+        result = int(match.group("max_page_num"))
 
         return result
 

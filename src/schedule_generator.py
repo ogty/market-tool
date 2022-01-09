@@ -1,5 +1,5 @@
 class ScheduleGenerator:
-    def __init__(self, hours: list, step=30, fill=True, include=True, delimiter=":"):
+    def __init__(self, hours: list, step: int=30, fill: bool=True, include: bool=True, delimiter: str=":"):
         self.hours = hours
         self.fill = fill
         self.delimiter = delimiter
@@ -24,7 +24,7 @@ class ScheduleGenerator:
 
         self.time_schedule = time_schedule
 
-    def delete(self, del_schedules=[], start="", end="") -> list:
+    def delete(self, del_schedules: list=[], start: str="", end: str="") -> list:
         [self.time_schedule.remove(del_schedule) for del_schedule in del_schedules]
 
         if start != "" and end != "":

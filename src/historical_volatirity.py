@@ -22,7 +22,7 @@ class HistoricalVolatirity:
 
         return np.lib.stride_tricks.as_strided(data, shape=shape, strides=strides)
 
-    def calc(self, n=20, m=240) -> float:
+    def calc(self, n: int=20, m: int=240) -> float:
         close = self.stock_data()
         data = np.array(close)
         rate = np.log(data[1:] / data[0: -1])

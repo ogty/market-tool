@@ -7,7 +7,16 @@ from settings import DATA_DIR
 
 
 class Analizer:
-    def __init__(self, codes: list, rate=False, n=3, err=False, ranking=True, ranking_reverse=True, delete_empty=True) -> None:
+    def __init__(
+        self, 
+        codes: list, 
+        rate: bool=False, 
+        n: int=3, 
+        err: bool=False, 
+        ranking: bool=True, 
+        ranking_reverse: bool=True, 
+        delete_empty: bool=True
+    ) -> None:
         df = pd.read_csv(os.path.join(DATA_DIR, "data_j.csv"))
         self.df = df
 
@@ -56,7 +65,6 @@ class Analizer:
 
     def common(self) -> dict:
         caller = str(inspect.stack()[1].function)
-
         if caller == "category":
             target = "33業種区分"
         elif caller == "market":
@@ -79,10 +87,8 @@ class Analizer:
         
         if self.rate:
             result = {k: round(v / df_data[k], self.n) for k, v in result.items()}
-
         if self.delete_empty:
             result = self._delete_empty(result)
-
         if self.ranking:
             result = self._ranking(result)
 
