@@ -15,7 +15,7 @@ class CodeAcquisition:
         soup = BeautifulSoup(html.content, "html.parser")
         data = soup.select("[class='ymuiPagingBottom clearFix']")
         match = RE_MAX_PAGE_NUM.search(data[0].text)
-        result = match.group("max_page_num")
+        result = int(match.group("max_page_num"))
 
         return result
 
