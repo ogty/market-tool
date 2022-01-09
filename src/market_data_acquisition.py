@@ -6,7 +6,7 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 
-from settings import MARKET_DATA_DIR
+import settings
 
 
 class MarketDataAcquisition:
@@ -14,9 +14,10 @@ class MarketDataAcquisition:
         url = f"https://info.finance.yahoo.co.jp/ranking/?kd={category_number}&tm=d&vl=a&mk=1&p=1"
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
-        tag = soup.select("[class='ymuiPagingBottom clearFix']")
-        result = int(tag[0].text.split("...")[1].rstrip("次へ"))
-        
+        data = soup.select("[class='ymuiPagingBottom clearFix']")
+        match = settings.RE_MAX_PAGE_NUM.search(data[0].text)
+        result = match.group("max_page_num")
+
         return result
 
     def ranking_data(self, category_number: int) -> list:
@@ -75,7 +76,7 @@ class MarketDataAcquisition:
 
         month = str(datetime.datetime.now().month)
         day = datetime.datetime.now().day
-        MONTH_PATH = os.path.join(MARKET_DATA_DIR, month)
+        MONTH_PATH = os.path.join(settings.MARKET_DATA_DIR, month)
 
         if not os.path.exists(MONTH_PATH):
             os.makedirs(MONTH_PATH)

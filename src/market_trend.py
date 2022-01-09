@@ -54,8 +54,8 @@ def trend() -> None:
     html = requests.get(url)
     soup = BeautifulSoup(html.content, "html.parser")
     data = soup.select("[class='rankdataPageing yjS']")
-    result = data[0].text
-    up_companies = result.split("/")[1].replace("件中", "")
+    match = settings.RE_UP_DENOMINATOR.search(data[0].text)
+    up_companies = match.group("up_denominatro")
     
     up_rate = int(up_companies) / ALL_COMPANIES
     down_rate = str(round((1.0 - up_rate) * 100, 3)).ljust(6)
