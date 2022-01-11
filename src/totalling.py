@@ -21,7 +21,7 @@ def totalling() -> None:
     day = datetime.datetime.now().day
 
     # Data Download and Save CSV
-    # MarketDataAcquisition().save()
+    MarketDataAcquisition().save()
 
     # Read template text and replace "today" to "today"
     with open(os.path.join(settings.DATA_DIR, "totalling_template.txt"), "r", encoding="utf-8") as f:
