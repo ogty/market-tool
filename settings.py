@@ -10,4 +10,4 @@ MARKET_DATA_DIR = os.path.join(DATA_DIR, "market_data")
 TOTALLING_DATA_DIR = os.path.join(DATA_DIR, "totalling_data")
 
 RE_MAX_PAGE_NUM = re.compile(r"...(?P<max_page_num>[\d]+)次へ")
-RE_UP_DENOMINATOR = re.compile(r"/(?P<up_denominatro>[\d]+)件中")
+RE_UP_DENOMINATOR = re.compile(r"/(?P<up_denominator>[\d]+)件中")
