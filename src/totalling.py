@@ -13,14 +13,15 @@ import settings
 
 def totalling() -> None:
     # Some Variables
-    columns = ["Range", "Market", "Rate", "Price", "Volume"]
+    columns = ["Range", "Market", "NewMarket", "Rate", "Price", "Volume"]
     oldest_text = ""
+    new_oldest_text = ""
     today = datetime.datetime.now().strftime("%Y/%m/%d")
     month = str(datetime.datetime.now().month)
     day = datetime.datetime.now().day
 
     # Data Download and Save CSV
-    MarketDataAcquisition().save()
+    # MarketDataAcquisition().save()
 
     # Read template text and replace "today" to "today"
     with open(os.path.join(settings.DATA_DIR, "totalling_template.txt"), "r", encoding="utf-8") as f:
@@ -43,6 +44,7 @@ def totalling() -> None:
     up_down = {"up": up_splited, "down": down_splited}
     for title, splited in up_down.items():
         oldest = [""]
+        new_oldest = [""]
         graph_data = []
         tmp_result = ""
 
@@ -71,14 +73,30 @@ def totalling() -> None:
                 most_num_market = "  〃   "
             oldest.append(oldest_text)
 
+            # New Market
+            new_market_data = dict(splited[i]["new_market"].value_counts())
+            num_of_new_market = sum([v for v in new_market_data.values()])
+            most_num_new_market = next(iter(new_market_data))
+            rate_new_market = round((new_market_data[most_num_new_market] / num_of_new_market) * 100)
+            rate_new_market = str(rate_new_market).rjust(3)
+
+            # Update the value, and if it is the same new market as before, use the ellipsis
+            new_oldest_text = most_num_new_market
+            if new_oldest[-1] == most_num_new_market:
+                most_num_new_market = "       〃      "
+            new_oldest.append(new_oldest_text)
+
             # Create the final string
             market_line_data = f"{most_num_market}({rate_market}%)"
-            tmp_result += f"{start} ~ {end}{common_line_data} | {market_line_data}\n"
+            new_market_line_data = f"{most_num_new_market.center(9)}({rate_new_market}%)"
+
+            tmp_result += f"{start} ~ {end}{common_line_data} | {market_line_data} | {new_market_line_data}\n"
             common_data = common_line_data.split(" | ")
 
             graph_data.append([
                 f"{start}〜{end}", 
                 market_line_data, 
+                new_market_line_data,
                 common_data[1], 
                 common_data[2], 
                 common_data[3]
@@ -97,7 +115,7 @@ def totalling() -> None:
             bbox=[0, 0, 1, 1]
         )
 
-        plt.title(f"{title.capitalize()} Totalling {today}")
+        # plt.title(f"{title.capitalize()} Totalling {today}")
         fig.savefig(os.path.join(TOTALLING_DATA_SAVE_PATH, f"{day}_{title}.png"))
 
         # Update "result_text"
