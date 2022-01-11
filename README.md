@@ -1,6 +1,7 @@
 # Market Tool
 
- - [JPX](https://www.jpx.co.jp/markets/statistics-equities/misc/01.html)
+ - [東証上場銘柄一覧](https://www.jpx.co.jp/markets/statistics-equities/misc/01.html)
+ - [新市場区分の選択結果](https://www.jpx.co.jp/equities/market-restructure/results/index.html)
  - [Twitter API](https://developer.twitter.com/ja)
  - [Slack](https://slack.com/intl/ja-jp/)
  - [Incoming Webhook](https://slack.com/apps/A0F7XDUAZ--incoming-webhook-?tab=more_info)
