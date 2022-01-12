@@ -24,7 +24,10 @@ class ScheduleGenerator:
 
         self.time_schedule = time_schedule
 
-    def delete(self, del_schedules: list=[], start: str="", end: str="") -> list:
+    def delete(self, del_schedules=None, start: str="", end: str="") -> list:
+        if del_schedules is None:
+            del_schedules = []
+
         [self.time_schedule.remove(del_schedule) for del_schedule in del_schedules]
 
         if start != "" and end != "":
