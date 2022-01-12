@@ -47,16 +47,16 @@ class ScheduleGenerator:
         return self.time_schedule
 
     def reorder(self) -> None:
-        one_twentyfour = {k: [] for k in range(25)}
+        zero_twentyfour = {k: [] for k in range(25)}
         for ts in self.time_schedule:
             ts_splited = ts.split(f"{self.delimiter}")
-            for hour in one_twentyfour.keys():
+            for hour in zero_twentyfour.keys():
                 if int(ts_splited[0]) == hour:
-                    one_twentyfour[hour].append(int(ts_splited[1]))
-                    one_twentyfour[hour].sort()
+                    zero_twentyfour[hour].append(int(ts_splited[1]))
+                    zero_twentyfour[hour].sort()
 
         time_schedule = []
-        for hour, minutes in one_twentyfour.items():
+        for hour, minutes in zero_twentyfour.items():
             for minute in minutes:
                 if self.fill:
                     hour = str(hour).zfill(2)
