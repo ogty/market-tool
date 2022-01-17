@@ -17,6 +17,7 @@ time_schedule = sg.ScheduleGenerator(range(9, 15), step=5).delete(start="11:35",
 oldest_day = datetime.datetime.now().day
 latest_day = 0
 
+# TODO: reset schedule?
 loading = loading.loading_spinner()
 while True:
     if mt.is_open():
