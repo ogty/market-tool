@@ -1,6 +1,6 @@
 bs4
-dotenv
-japanize_matplotlib
+python-dotenv
+japanize-matplotlib
 matplotlib
 numpy
 pandas
@@ -8,6 +8,4 @@ requests
 schedule
 tqdm
 tweepy
-unicodedata
-urllib
-yahoo_finance_api2
+yahoo-finance-api2
