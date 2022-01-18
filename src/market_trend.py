@@ -54,7 +54,12 @@ def trend() -> None:
     html = requests.get(url)
     soup = BeautifulSoup(html.content, "html.parser")
     data = soup.select("[class='rankdataPageing yjS']")
-    match = settings.RE_UP_DENOMINATOR.search(data[0].text)
+    try:
+        match = settings.RE_UP_DENOMINATOR.search(data[0].text)
+    except IndexError as ex:
+        print(f"Error: {ex}") # TODO: icecream or logger
+        return None
+        
     up_companies = match.group("up_denominator")
     
     up_rate = int(up_companies) / ALL_COMPANIES
