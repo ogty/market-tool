@@ -53,7 +53,7 @@ def trend() -> None:
     url = "https://info.finance.yahoo.co.jp/ranking/?kd=1&tm=d&mk=1"
     html = requests.get(url)
     soup = BeautifulSoup(html.content, "html.parser")
-    data = soup.select("[class='FhozvzeP']")
+    data = soup.select("[class='_3UifNu3u']")
     try:
         match = settings.RE_UP_DENOMINATOR.search(data[0].text)
     except IndexError as ex:
