@@ -3,7 +3,7 @@ from typing import List
 
 class ScheduleGenerator:
     
-    def __init__(self, hours: list, step: int = None, fill: bool=True, include: bool=True, delimiter: str = None) -> None:
+    def __init__(self, hours: List[int], step: int = None, fill: bool = True, include: bool = True, delimiter: str = None) -> None:
         self.step = 30 if step is None else step
         self.hours = hours
         self.fill = fill
@@ -29,12 +29,10 @@ class ScheduleGenerator:
 
         self.time_schedule = time_schedule
 
-    def delete(self, del_schedules=None, start: str = None, end: str = None) -> List[str]:
+    def delete(self, del_schedules: List[str] = None, start: str = None, end: str = None) -> List[str]:
         start = "" if start is None else start
         end = "" if end is None else end
-        
-        if del_schedules is None:
-            del_schedules = []
+        del_schedules = [] if del_schedules is None else del_schedules
 
         [self.time_schedule.remove(del_schedule) for del_schedule in del_schedules]
 
