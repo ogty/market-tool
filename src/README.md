@@ -38,7 +38,7 @@
 >>> ScheduleGenerator(range(3, 6), delimiter="-")()
 ['03-00', '03-30', '04-00', '04-30', '05-00', '05-30', '06-00']
 
->>> ScheduleGenerator(range(8, 10), fill=False, include=False)
+>>> ScheduleGenerator(range(8, 10), fill=False, include=False)()
 ['8:0', '8:30', '9:0', '9:30']
 
 >>> ScheduleGenerator(range(9, 11)).addition(add_schedules=['09:15'])
