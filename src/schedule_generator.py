@@ -1,8 +1,13 @@
+from typing import List
+
+
 class ScheduleGenerator:
-    def __init__(self, hours: list, step: int=30, fill: bool=True, include: bool=True, delimiter: str=":"):
+    
+    def __init__(self, hours: list, step: int = None, fill: bool=True, include: bool=True, delimiter: str = None) -> None:
+        self.step = 30 if step is None else step
         self.hours = hours
         self.fill = fill
-        self.delimiter = delimiter
+        self.delimiter = ":" if delimiter is None else delimiter
 
         time_schedule = []
         for hour in hours:
@@ -24,7 +29,10 @@ class ScheduleGenerator:
 
         self.time_schedule = time_schedule
 
-    def delete(self, del_schedules=None, start: str="", end: str="") -> list:
+    def delete(self, del_schedules=None, start: str = None, end: str = None) -> List[str]:
+        start = "" if start is None else start
+        end = "" if end is None else end
+        
         if del_schedules is None:
             del_schedules = []
 
@@ -41,7 +49,7 @@ class ScheduleGenerator:
         else:
             return self.time_schedule
     
-    def addition(self, add_schedule: list) -> list:
+    def addition(self, add_schedule: List[str]) -> List[str]:
         self.time_schedule += add_schedule
         self.reorder()
         return self.time_schedule
@@ -66,5 +74,5 @@ class ScheduleGenerator:
 
         self.time_schedule = time_schedule
 
-    def __call__(self) -> list:
+    def __call__(self) -> List[str]:
         return self.time_schedule
