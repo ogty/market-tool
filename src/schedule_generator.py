@@ -11,21 +11,21 @@ class ScheduleGenerator:
 
         time_schedule = []
         for hour in hours:
-            for minute in range(0, 60, step):
+            for minute in range(0, 60, self.step):
                 if fill:
                     hour = str(hour).zfill(2)
                     minute = str(minute).zfill(2)
 
-                time_schedule.append(f"{hour}{delimiter}{minute}")
+                time_schedule.append(f"{hour}{self.delimiter}{minute}")
 
         if include:
             if hours[-1] == 23:
                 pass
             else:
                 if fill:
-                    time_schedule.append(f"{hours[-1] + 1}{delimiter}00")
+                    time_schedule.append(f"{hours[-1] + 1}{self.delimiter}00")
                 else:
-                    time_schedule.append(f"{hours[-1] + 1}{delimiter}0")
+                    time_schedule.append(f"{hours[-1] + 1}{self.delimiter}0")
 
         self.time_schedule = time_schedule
 
@@ -34,7 +34,8 @@ class ScheduleGenerator:
         end = "" if end is None else end
         del_schedules = [] if del_schedules is None else del_schedules
 
-        [self.time_schedule.remove(del_schedule) for del_schedule in del_schedules]
+        if not del_schedules:
+            [self.time_schedule.remove(del_schedule) for del_schedule in del_schedules]
 
         if start != "" and end != "":
             try:
@@ -47,8 +48,8 @@ class ScheduleGenerator:
         else:
             return self.time_schedule
     
-    def addition(self, add_schedule: List[str]) -> List[str]:
-        self.time_schedule += add_schedule
+    def addition(self, add_schedules: List[str]) -> List[str]:
+        self.time_schedule += add_schedules
         self.reorder()
         return self.time_schedule
 
