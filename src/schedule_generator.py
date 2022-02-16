@@ -19,9 +19,7 @@ class ScheduleGenerator:
                 time_schedule.append(f"{hour}{self.delimiter}{minute}")
 
         if include:
-            if hours[-1] == 23:
-                pass
-            else:
+            if hours[-1] != 23:
                 if fill:
                     time_schedule.append(f"{hours[-1] + 1}{self.delimiter}00")
                 else:
