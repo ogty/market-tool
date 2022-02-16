@@ -1,3 +1,5 @@
+from typing import List, Dict 
+
 import pandas as pd
 
 from .stock_data_acquisition import data_acquisition
@@ -5,7 +7,7 @@ from .stock_data_acquisition import data_acquisition
 
 # bb: Bollinger Band
 # std: Standard Diviation
-def bb_counter(codes: list) -> dict:
+def bb_counter(codes: List[int or str]) -> Dict[int or str, float]:
     data = {}
     for code in codes:
         df = data_acquisition(code)

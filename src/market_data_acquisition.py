@@ -1,5 +1,6 @@
 import datetime
 import os
+from typing import List 
 
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -10,6 +11,7 @@ import settings
 
 
 class MarketDataAcquisition:
+
     def category_max_page_num(self, category_number: int) -> int:
         url = f"https://info.finance.yahoo.co.jp/ranking/?kd={category_number}&tm=d&vl=a&mk=1&p=1"
         html = requests.get(url)
@@ -20,7 +22,7 @@ class MarketDataAcquisition:
 
         return result
 
-    def ranking_data(self, category_number: int) -> list:
+    def ranking_data(self, category_number: int) -> List[str, str, str, float, float, int]:
         include_new_market_df = pd.read_csv(os.path.join(settings.DATA_DIR, "JP.csv"))
 
         codes = []
@@ -82,7 +84,7 @@ class MarketDataAcquisition:
 
         return result
 
-    def save(self, connect: bool=False) -> None:
+    def save(self, connect: bool = False) -> None:
         columns = ["code", "market", "new_market", "price", "rate", "volumes"]
 
         month = str(datetime.datetime.now().month)

@@ -1,5 +1,6 @@
 import inspect
 import os
+from typing import List, Dict 
 
 import pandas as pd
 
@@ -7,32 +8,33 @@ from settings import DATA_DIR
 
 
 class Analizer:
+    
     def __init__(
         self, 
-        codes: list, 
-        rate: bool=False, 
-        n: int=3, 
-        err: bool=False, 
-        ranking: bool=True, 
-        ranking_reverse: bool=True, 
-        delete_empty: bool=True
+        codes: List[str or int], 
+        rate: bool = False, 
+        n: int = None, 
+        err: bool = False, 
+        ranking: bool = True, 
+        ranking_reverse: bool = True, 
+        delete_empty: bool = True
     ) -> None:
         df = pd.read_csv(os.path.join(DATA_DIR, "data_j.csv"))
         self.df = df
 
         self.codes = codes
         self.rate = rate
-        self.n = n
+        self.n = 3 if n is None else n
         self.err = err
         self.ranking = ranking
         self.ranking_reverse = ranking_reverse
         self.delete_empty = delete_empty
 
-    def _ranking(self, data: dict) -> dict:
+    def _ranking(self, data: Dict[str, float]) -> Dict[str, float]:
         result = sorted(data.items(), key=lambda x:x[1], reverse=self.ranking_reverse)
         return dict(result)
 
-    def _delete_empty(self, data: dict) -> dict:
+    def _delete_empty(self, data: Dict[str, float]) -> Dict[str, float]:
         result = {}
         for k, v in data.items():
             if v != 0:
@@ -40,7 +42,7 @@ class Analizer:
 
         return result
 
-    def distribution(self, *markets) -> dict:
+    def distribution(self, *markets) -> Dict[str, int]:
         df_data = dict(self.df["33業種区分"].value_counts())
         result = {k: 0 for k in df_data.keys()}
 
@@ -57,13 +59,13 @@ class Analizer:
 
         return result
 
-    def category(self) -> dict:
+    def category(self) -> Dict[str, float]:
         return self.common()
 
-    def market(self) -> dict:
+    def market(self) -> Dict[str, float]:
         return self.common()
 
-    def common(self) -> dict:
+    def common(self) -> Dict[str, float]:
         caller = str(inspect.stack()[1].function)
         if caller == "category":
             target = "33業種区分"
