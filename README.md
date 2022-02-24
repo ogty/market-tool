@@ -6,7 +6,7 @@
  - [Slack](https://slack.com/intl/ja-jp/)
  - [Incoming Webhook](https://slack.com/apps/A0F7XDUAZ--incoming-webhook-?tab=more_info)
 
-***
+---
 
 ### 機能
 
