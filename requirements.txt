@@ -1,9 +1,9 @@
 bs4
-python-dotenv
 japanize-matplotlib
 matplotlib
 numpy
 pandas
+python-dotenv
 requests
 schedule
 tqdm
