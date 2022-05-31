@@ -35,7 +35,7 @@ class ScheduleGenerator:
         if not del_schedules:
             [self.time_schedule.remove(del_schedule) for del_schedule in del_schedules]
 
-        if start != "" and end != "":
+        if not start and not end:
             try:
                 start_index = self.time_schedule.index(start)
                 end_index = self.time_schedule.index(end)
