@@ -41,7 +41,10 @@ def totalling() -> None:
     down_splited = df_slicer(df_down, 100)
 
     # Main Process
-    up_down = {"up": up_splited, "down": down_splited}
+    up_down = {
+        "up": up_splited, 
+        "down": down_splited,
+    }
     for title, splited in up_down.items():
         oldest = [""]
         new_oldest = [""]
@@ -99,7 +102,7 @@ def totalling() -> None:
                 new_market_line_data,
                 common_data[1], 
                 common_data[2], 
-                common_data[3]
+                common_data[3],
             ])
 
         # Creat and Save Graphs
@@ -112,7 +115,7 @@ def totalling() -> None:
             cellText=df.values,
             colLabels=df.columns,
             loc="center",
-            bbox=[0, 0, 1, 1]
+            bbox=[0, 0, 1, 1],
         )
 
         # plt.title(f"{title.capitalize()} Totalling {today}")
