@@ -22,7 +22,11 @@ def bb_counter(codes: List[int or str]) -> Dict[int or str, float]:
             bb[f"lower{std}"] = bb["mean"] - (bb["std"] * std)
 
         for std in range(1, 3):
-            for close, upper, lower in zip(bb["close"][-1:], bb[f"upper{std}"][-1:], bb[f"lower{std}"][-1:]):
+            bb_close = bb["close"][-1:]
+            bb_upper = bb[f"upper{std}"][-1:]
+            bb_lower = bb[f"lower{std}"][-1:]
+
+            for close, upper, lower in zip(bb_close, bb_upper, bb_lower):
                 if upper <= close:
                     data[code] = std
                 if lower >= close:

@@ -1,29 +1,49 @@
+import re
+
 from bs4 import BeautifulSoup
 import requests
 
-from settings import RE_MAX_PAGE_NUM
+
+RE_MAX_PAGE_NUM = re.compile(r"1〜50/(?P<max_page_num>[\d]+)件")
+RE_CODE = re.compile(r".+(\d{4}).+掲示板")
 
 
 class CodeAcquisition:
     
-    def __init__(self, cateogry_number: int) -> None:
-        self.cateogry_number = cateogry_number
+    def __init__(self, category_type: str) -> None:
+        self.category_type = category_type
         self.codes = []
+        self.base_url = "https://finance.yahoo.co.jp/stocks/ranking/"
 
     def max_page_scraping(self) -> int:
-        url = f"https://info.finance.yahoo.co.jp/ranking/?kd={self.cateogry_number}&tm=d&vl=a&mk=1&p=1"
+        url = self.base_url + self.category_type
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
-        data = soup.select("[class='ymuiPagingBottom clearFix']")
-        match = RE_MAX_PAGE_NUM.search(data[0].text)
-        result = int(match.group("max_page_num"))
+        data = soup.select('p')
 
-        return result
+        for i in data:
+            match = RE_MAX_PAGE_NUM.search(i.text)
+            if not match:
+                continue
+
+            return int(match.group("max_page_num"))
 
     def code_scraping(self) -> None:
         for i in range(1, self.max_page_scraping() + 1):
-            url = f"https://info.finance.yahoo.co.jp/ranking/?kd={self.cateogry_number}&tm=d&vl=a&mk=1&p={i}"
+            url = self.base_url + self.category_type + f"?market=all&term=daily&page={i}"
             html = requests.get(url)
             soup = BeautifulSoup(html.content, "html.parser")
-            data = soup.select("[class='txtcenter']")
-            self.codes += [data[i].text for i in range(len(data)) if not i % 2 == 0]
+            data = soup.select("td")
+
+            for i in data:
+                match = re.match(RE_CODE, i.text)
+                if not match:
+                    continue
+                self.codes.append(int(match.group(1)))
+
+
+if __name__ == "__main__":
+    instance = CodeAcquisition("up")
+    max_page_number = instance.max_page_scraping()
+    instance.code_scraping()
+    print(instance.codes)
