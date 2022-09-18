@@ -8,6 +8,13 @@
 
 ---
 
+```zsh
+$ python -c 'import pandas;print(len([c for c in pandas.read_csv("./data/data_j.csv")["コード"] if len(str(c))==4]))'
+$ python -c 'import pandas;open("./codes.txt","w").write("\n".join([str(c) for c in pandas.read_csv("./data/data_j.csv")["コード"] if len(str(c))==4]))'
+```
+
+---
+
 ### 機能
 
  - [x] 市場データ集計
