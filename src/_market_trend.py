@@ -1,10 +1,12 @@
 import datetime
+# import json
 import os
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import pandas as pd
 import requests
+# import tweepy
 
 from download_update import download_update
 from analizer import Analizer
@@ -12,9 +14,22 @@ from text_length_counter import text_length_counter
 import settings
 
 
+#! NOTE: Here is a version of the program with bots
+#! NOTE: Please install 'tweepy' additionally if you want to use it
+#! NOTE: pip install tweepy
+
+
 load_dotenv()
 oldest_month = 0
 ALL_COMPANIES = 0
+
+# client = tweepy.Client(
+#     os.environ["BEARER_TOKEN"], 
+#     os.environ["API_KEY"], 
+#     os.environ["API_KEY_SECRET"], 
+#     os.environ["ACCESS_TOKEN"], 
+#     os.environ["ACCESS_TOKEN_SECRET"]
+# )
 
 
 def logger(message: str) -> None:
@@ -53,9 +68,26 @@ def trend() -> None:
     down_rate = str(round((1.0 - up_rate) * 100, 3)).ljust(6)
     up_rate = str(round(up_rate * 100, 3)).ljust(6)
 
+    # now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
     message = f"{up_rate} | {down_rate}"
+    # twitter_message = f"{now}\n　UP　：{up_rate}%\nDOWN：{down_rate}%"
+
     logger(message)
     
+    # Twitter bot
+    # client.create_tweet(text=twitter_message)
+
+    # Slack bot
+    # requests.post(
+    #     os.environ["WEB_HOOK_URL"], 
+    #     data=json.dumps({
+    #         "text" : message,
+    #         "icon_emoji" : ":dog:",
+    #         "username" : "Trend"
+    #         }
+    #     )
+    # )
+
 
 def market_holidays(year: str, path: str) -> None:
     url = "https://www.jpx.co.jp/corporate/about-jpx/calendar/index.html"
@@ -114,3 +146,5 @@ def category_totalling() -> None:
         else:
             message_count += text_length_counter(message)
             result.append(message)
+
+    # client.create_tweet(text='\n'.join(result))

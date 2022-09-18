@@ -7,6 +7,5 @@ python-dotenv
 requests
 schedule
 tqdm
-tweepy
 yahoo-finance-api2
 xlrd
