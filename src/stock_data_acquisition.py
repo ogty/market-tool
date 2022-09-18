@@ -25,8 +25,8 @@ def data_acquisition(code: str or int) -> pd.DataFrame:
 
     # ymd: year month day
     latest_date = str(df["Dates"][0])
-    latest_ymd = latest_date.split(" ")[0]
-    one_day_ago = int(latest_ymd.split("-")[-1]) - 1
+    latest_ymd = latest_date.split(' ')[0]
+    one_day_ago = int(latest_ymd.split('-')[-1]) - 1
 
     year = datetime.datetime.now().year
     month = datetime.datetime.now().month

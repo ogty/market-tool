@@ -3,11 +3,18 @@ from typing import List
 
 class ScheduleGenerator:
     
-    def __init__(self, hours: List[int], step: int = None, fill: bool = True, include: bool = True, delimiter: str = None) -> None:
+    def __init__(
+        self,
+        hours: List[int],
+        step: int = None,
+        fill: bool = True,
+        include: bool = True,
+        delimiter: str = None
+    ) -> None:
         self.step = 30 if step is None else step
         self.hours = hours
         self.fill = fill
-        self.delimiter = ":" if delimiter is None else delimiter
+        self.delimiter = ':' if delimiter is None else delimiter
 
         time_schedule = []
         for hour in hours:
@@ -27,9 +34,14 @@ class ScheduleGenerator:
 
         self.time_schedule = time_schedule
 
-    def delete(self, del_schedules: List[str] = None, start: str = None, end: str = None) -> List[str]:
-        start = "" if start is None else start
-        end = "" if end is None else end
+    def delete(
+        self,
+        del_schedules: List[str] = None,
+        start: str = None,
+        end: str = None
+    ) -> List[str]:
+        start = '' if start is None else start
+        end = '' if end is None else end
         del_schedules = [] if del_schedules is None else del_schedules
 
         if not del_schedules:
@@ -41,8 +53,8 @@ class ScheduleGenerator:
                 end_index = self.time_schedule.index(end)
                 result = self.time_schedule[:start_index] + self.time_schedule[end_index:]
                 return result
-            except ValueError as ex:
-                print(f"Error: {ex}")
+            except ValueError as error:
+                print(f"Error: {error}")
         else:
             return self.time_schedule
     

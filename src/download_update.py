@@ -1,7 +1,6 @@
 import os
 
-import urllib
-import requests
+import urllib.request
 import pandas as pd
 
 from settings import DATA_DIR

@@ -14,8 +14,8 @@ import settings
 def totalling() -> None:
     # Some Variables
     columns = ["Range", "Market", "NewMarket", "Rate", "Price", "Volume"]
-    oldest_text = ""
-    new_oldest_text = ""
+    oldest_text = ''
+    new_oldest_text = ''
     today = datetime.datetime.now().strftime("%Y/%m/%d")
     month = str(datetime.datetime.now().month)
     day = datetime.datetime.now().day
@@ -24,8 +24,10 @@ def totalling() -> None:
     MarketDataAcquisition().save()
 
     # Read template text and replace "today" to "today"
-    with open(os.path.join(settings.DATA_DIR, "totalling_template.txt"), "r", encoding="utf-8") as f:
+    totalling_template_path = os.path.join(settings.DATA_DIR, "totalling_template.txt")
+    with open(totalling_template_path, 'r', encoding="utf-8") as f:
         template = f.read()
+
     result_text = template.replace("today", today)
 
     # If the folder does not exist, create it.
@@ -46,10 +48,10 @@ def totalling() -> None:
         "down": down_splited,
     }
     for title, splited in up_down.items():
-        oldest = [""]
-        new_oldest = [""]
+        oldest = ['']
+        new_oldest = ['']
         graph_data = []
-        tmp_result = ""
+        tmp_result = ''
 
         for i in range(len(splited)):
             # Range
@@ -57,7 +59,7 @@ def totalling() -> None:
             end = str((i + 1) * 100).rjust(4)
 
             # Rate, Volume, Price
-            common_line_data = ""
+            common_line_data = ''
             for column, space in zip(["rate", "price", "volumes"], range(6, 9)):
                 tmp_data = splited[i][column].to_list()
                 tmp_median = round(statistics.median(tmp_data), 2)
@@ -74,6 +76,7 @@ def totalling() -> None:
             oldest_text = most_num_market
             if oldest[-1] == most_num_market:
                 most_num_market = "  〃   "
+            #                      ^^ ^^^^
             oldest.append(oldest_text)
 
             # New Market
@@ -87,6 +90,7 @@ def totalling() -> None:
             new_oldest_text = most_num_new_market
             if new_oldest[-1] == most_num_new_market:
                 most_num_new_market = "       〃      "
+            #                          ^^^^^^^ ^^^^^^^
             new_oldest.append(new_oldest_text)
 
             # Create the final string
@@ -126,7 +130,8 @@ def totalling() -> None:
 
     # Display and Save 
     print(result_text)
-    with open(os.path.join(TOTALLING_DATA_SAVE_PATH, f"{day}.txt"), "w", encoding="utf-8") as f:
+    calculation_result_path = os.path.join(TOTALLING_DATA_SAVE_PATH, f"{day}.txt")
+    with open(calculation_result_path, 'w', encoding="utf-8") as f:
         f.write(result_text)
 
 

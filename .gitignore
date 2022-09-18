@@ -8,3 +8,5 @@ market_data/
 totalling_data/
 
 !package/.env
+
+.venv

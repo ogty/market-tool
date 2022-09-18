@@ -22,7 +22,7 @@ class MarketDataAcquisition:
 
         return result
 
-    def ranking_data(self, category_number: int) -> List[str, str, str, float, float, int]:
+    def ranking_data(self, category_number: int) -> List[any]:
         include_new_market_df = pd.read_csv(os.path.join(settings.DATA_DIR, "JP.csv"))
 
         codes = []
@@ -55,13 +55,13 @@ class MarketDataAcquisition:
 
 
             price = soup.select("[class='txtright bold']")
-            prices += [float(i.text.replace(",", "")) for i in price]
+            prices += [float(i.text.replace(',', '')) for i in price]
 
             rate = soup.select("[class='txtright bgyellow02']")
-            rates += [float(i.text.rstrip("%")) for i in rate]
+            rates += [float(i.text.rstrip('%')) for i in rate]
 
             volume = soup.select("[class='txtright']")
-            volumes += [int(i.text.replace(",", "")) for i in volume]
+            volumes += [int(i.text.replace(',', '')) for i in volume]
 
             bar.update(1)
 
@@ -69,7 +69,7 @@ class MarketDataAcquisition:
             try:
                 new_markets.append(include_new_market_df[(include_new_market_df["コード"] == int(code))]["新市場区分"].tolist()[0])
             except:
-                new_markets.append("-")
+                new_markets.append('-')
 
         if category_number == 2:
             codes.reverse()
@@ -107,6 +107,7 @@ class MarketDataAcquisition:
 
             df_up.to_csv(os.path.join(MONTH_PATH, f"{day}_up.csv"), index=False)
             df_down.to_csv(os.path.join(MONTH_PATH, f"{day}_down.csv"), index=False)
+
 
 if __name__ == "__main__":
     MarketDataAcquisition().save()

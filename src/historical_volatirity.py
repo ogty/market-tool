@@ -19,7 +19,7 @@ class HistoricalVolatirity:
 
         return data
 
-    def rolling_window(self, data: List[float], window: int) -> np.npdarray:
+    def rolling_window(self, data: List[float], window: int) -> np.ndarray:
         shape = data.shape[:-1] + (data.shape[-1] - window + 1, window)
         strides = data.strides + (data.strides[-1],)
 
@@ -36,3 +36,8 @@ class HistoricalVolatirity:
         hv = (std * np.sqrt(m) * 100).tolist()
 
         return hv
+
+
+if __name__ == "__main__":
+    hv = HistoricalVolatirity(7203)
+    print(hv.calc())

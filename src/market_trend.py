@@ -1,16 +1,16 @@
 import datetime
-import json
+# import json
 import os
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import pandas as pd
 import requests
-import tweepy
+# import tweepy
 
-from src.download_update import download_update
-from src.analizer import Analizer
-from src.text_length_counter import text_length_counter
+from download_update import download_update
+from analizer import Analizer
+from text_length_counter import text_length_counter
 import settings
 
 
@@ -18,13 +18,13 @@ load_dotenv()
 oldest_month = 0
 ALL_COMPANIES = 0
 
-client = tweepy.Client(
-    os.environ["BEARER_TOKEN"], 
-    os.environ["API_KEY"], 
-    os.environ["API_KEY_SECRET"], 
-    os.environ["ACCESS_TOKEN"], 
-    os.environ["ACCESS_TOKEN_SECRET"]
-)
+# client = tweepy.Client(
+#     os.environ["BEARER_TOKEN"], 
+#     os.environ["API_KEY"], 
+#     os.environ["API_KEY_SECRET"], 
+#     os.environ["ACCESS_TOKEN"], 
+#     os.environ["ACCESS_TOKEN_SECRET"]
+# )
 
 
 def logger(message: str) -> None:
@@ -36,11 +36,13 @@ def logger(message: str) -> None:
         os.makedirs(settings.LOGS_DIR)
         
     this_year_month = datetime.datetime.now().strftime("%Y_%m")
-    with open(os.path.join(settings.LOGS_DIR, f"{this_year_month}.log"), "a", encoding="utf-8") as f:
+    log_path = os.path.join(settings.LOGS_DIR, f"{this_year_month}.log")
+    with open(log_path, 'a', encoding="utf-8") as f:
         f.write(f"{log}\n")
 
 
 def trend() -> None:
+    # TODO: use class
     global ALL_COMPANIES
     global oldest_month 
 
@@ -61,25 +63,25 @@ def trend() -> None:
     down_rate = str(round((1.0 - up_rate) * 100, 3)).ljust(6)
     up_rate = str(round(up_rate * 100, 3)).ljust(6)
 
-    now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
+    # now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M")
     message = f"{up_rate} | {down_rate}"
-    twitter_message = f"{now}\n　UP　：{up_rate}%\nDOWN：{down_rate}%"
+    # twitter_message = f"{now}\n　UP　：{up_rate}%\nDOWN：{down_rate}%"
 
     logger(message)
     
     # Twitter bot
-    client.create_tweet(text=twitter_message)
+    # client.create_tweet(text=twitter_message)
 
     # Slack bot
-    requests.post(
-        os.environ["WEB_HOOK_URL"], 
-        data=json.dumps({
-            "text" : message,
-            "icon_emoji" : ":dog:",
-            "username" : "Trend"
-            }
-        )
-    )
+    # requests.post(
+    #     os.environ["WEB_HOOK_URL"], 
+    #     data=json.dumps({
+    #         "text" : message,
+    #         "icon_emoji" : ":dog:",
+    #         "username" : "Trend"
+    #         }
+    #     )
+    # )
 
 
 def market_holidays(year: str, path: str) -> None:
@@ -92,7 +94,7 @@ def market_holidays(year: str, path: str) -> None:
     holidays = list(filter(lambda x: x.startswith(year), holidays))
     holidays = list(map(lambda x: x[:-3], holidays))
 
-    with open(path, "w", encoding="utf-8") as f:
+    with open(path, 'w', encoding="utf-8") as f:
         for holiday in holidays:
             f.write(f"{holiday}\n")
 
@@ -104,7 +106,7 @@ def is_open() -> bool:
     if not os.path.exists(path):
         market_holidays(year, path)
     
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, 'r', encoding="utf-8") as f:
         holidays = [holiday.rstrip() for holiday in f]
 
     weekday = datetime.datetime.now().weekday()
@@ -113,10 +115,8 @@ def is_open() -> bool:
     if weekday < 5:
         if not now in holidays:
             return True
-        else:
-            return False
-    else:
         return False
+    return False
 
 
 def category_totalling() -> None:
@@ -127,7 +127,7 @@ def category_totalling() -> None:
 
     codes = df["code"].tolist()
     result = Analizer(codes).category()
-    del result["-"]
+    del result['-']
 
     messages = [f"{category_name}：{category_value}" for category_name, category_value in result.items()]
     num_of_stocks = sum([i for i in result.values()])
@@ -142,4 +142,4 @@ def category_totalling() -> None:
             message_count += text_length_counter(message)
             result.append(message)
 
-    client.create_tweet(text="\n".join(result))
+    # client.create_tweet(text='\n'.join(result))
