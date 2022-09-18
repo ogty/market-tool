@@ -12,9 +12,13 @@ class HistoricalVolatirity:
 
     def stock_data(self) -> List[float]:
         my_share = share.Share(f"{self.code}.T")
-        symbol_data = my_share.get_historical(share.PERIOD_TYPE_YEAR, 1, share.FREQUENCY_TYPE_DAY, 1)
+        my_share.get_historical()
+        symbol_data = my_share.get_historical(
+            share.PERIOD_TYPE_YEAR, 1,
+            share.FREQUENCY_TYPE_DAY, 1,
+        )
         data = pd.DataFrame(symbol_data.values(), index=symbol_data.keys()).T
-        data = list(data.close) # TODO: use ["close"] if available.
+        data = list(data.close)
         data.reverse()
 
         return data
@@ -32,12 +36,18 @@ class HistoricalVolatirity:
         close = self.stock_data()
         data = np.array(close)
         rate = np.log(data[1:] / data[0: -1])
-        std = np.hstack((np.empty(n) * np.nan, np.std(self.rolling_window(rate, n), axis=1, ddof=1)))
+        std = np.hstack((
+            np.empty(n) * np.nan,
+            np.std(self.rolling_window(rate, n), axis=1, ddof=1),
+        ))
         hv = (std * np.sqrt(m) * 100).tolist()
 
         return hv
 
 
 if __name__ == "__main__":
+    from statistics import median
+
+
     hv = HistoricalVolatirity(7203)
-    print(hv.calc())
+    print(median(hv.calc()))
