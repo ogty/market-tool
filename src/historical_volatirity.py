@@ -1,24 +1,31 @@
+from statistics import median
 from typing import List 
 
 import numpy as np
 import pandas as pd
 from yahoo_finance_api2 import share
 
-
 class HistoricalVolatirity:
 
     def __init__(self, code: str or int) -> None:
         self.code = code
+        self.start_date = None
+        self.end_date = None
 
     def stock_data(self) -> List[float]:
-        my_share = share.Share(f"{self.code}.T")
-        my_share.get_historical()
+        my_share = share.Share("%s.T" % self.code)
         symbol_data = my_share.get_historical(
-            share.PERIOD_TYPE_YEAR, 1,
-            share.FREQUENCY_TYPE_DAY, 1,
+            share.PERIOD_TYPE_MONTH, 3,
+            share.FREQUENCY_TYPE_DAY, 1
         )
         data = pd.DataFrame(symbol_data.values(), index=symbol_data.keys()).T
-        data = list(data.close)
+        timestamp = data["timestamp"].tolist()
+        start_date = pd.to_datetime(timestamp[0], unit="ms")
+        end_date = pd.to_datetime(timestamp[-1], unit="ms")
+        self.start_date = start_date.strftime("%Y/%m/%d")
+        self.end_date = end_date.strftime("%Y/%m/%d")
+
+        data = data.close.astype(float).tolist()
         data.reverse()
 
         return data
@@ -42,12 +49,10 @@ class HistoricalVolatirity:
         ))
         hv = (std * np.sqrt(m) * 100).tolist()
 
-        return hv
+        return median(hv)
 
 
 if __name__ == "__main__":
-    from statistics import median
-
-
     hv = HistoricalVolatirity(7203)
-    print(median(hv.calc()))
+    print(hv.calc())
+    print(hv.start_date, hv.end_date)
