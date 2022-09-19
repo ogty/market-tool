@@ -45,7 +45,7 @@ for code in codes[1:]:
     finally:
         code = "%s%s%s" % (RED, code, NO_COLOR) if is_error else code
         if display_count != displayable_number:
-            print(code, end=' ')
+            sys.stdout.write("%s " % code)
             display_count += 1
         else:
             sys.stdout.write("%s\n" % code)
@@ -79,6 +79,7 @@ for en_label, ja_label in labels.items():
     if ja_label_length < maximum_length_of_label:
         ja_label += (maximum_length_of_label - ja_label_length) * '\u3000'
     describe += "%s\uFF1A%.2f\n" % (ja_label, float(summary_statistics_for_hv[en_label]))
+    #              ^^^^^^ \uFF1A is a full-width colon
 
 figure = plt.figure()
 plt.title(f"全上場銘柄のヒストリカルボラティリティ(HV)\n{start_date} 〜 {end_date}")
