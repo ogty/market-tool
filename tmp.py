@@ -23,12 +23,15 @@ with open("./data/codes.txt", 'r', encoding="utf-8") as f:
     codes = [code.rstrip() for code in f.readlines()]
 
 
-historical_volatirity = {}
+historical_volatirity = {
+    "summaryStatistics": {},
+    "data": {},
+}
 
 # Use first data for period acquisition
 first_data = codes[0]
 hv = HistoricalVolatirity(first_data)
-historical_volatirity[first_data] = hv.calc()
+historical_volatirity["data"][first_data] = hv.calc()
 start_date = hv.start_date
 end_date = hv.end_date
 
@@ -39,7 +42,7 @@ for code in codes[1:]:
     try:
         hv = HistoricalVolatirity(code).calc()
         # If historical volatility was NaN, it is set to 0.0
-        historical_volatirity[code] = 0.0 if isnan(hv) else hv
+        historical_volatirity["data"][code] = 0.0 if isnan(hv) else hv
     except Exception as error:
         is_error = True
     finally:
@@ -54,13 +57,9 @@ for code in codes[1:]:
         sys.stdout.flush()
         is_error = False
 
-# Save historical volatility as a json file
-with open(f"./data/hv-{today}.json", 'w', encoding="utf-8") as f:
-    json.dump(historical_volatirity, f, indent=4, ensure_ascii=False)
-
 
 # Create and save a histogram of historical volatility
-value_only_hv = [hv for hv in historical_volatirity.values()]
+value_only_hv = [hv for hv in historical_volatirity["data"].values()]
 summary_statistics_for_hv = pd.DataFrame(pd.Series(value_only_hv).describe()).transpose()
 labels = {
     "count": "サンプル数",
@@ -78,7 +77,10 @@ for en_label, ja_label in labels.items():
     ja_label_length = len(ja_label)
     if ja_label_length < maximum_length_of_label:
         ja_label += (maximum_length_of_label - ja_label_length) * '\u3000'
-    describe += "%s\uFF1A%.2f\n" % (ja_label, float(summary_statistics_for_hv[en_label]))
+    
+    value = float(summary_statistics_for_hv[en_label])
+    historical_volatirity["summaryStatistics"][en_label] = value
+    describe += "%s\uFF1A%.2f\n" % (ja_label, value)
     #              ^^^^^^ \uFF1A is a full-width colon
 
 figure = plt.figure()
@@ -103,3 +105,7 @@ plt.text(float(summary_statistics_for_hv["75%"]) - 1, 150, "──四分位範�
 plt.hist(value_only_hv, bins=200, color="#344966", label="銘柄数")
 plt.figtext(0.61, 0.55, describe, wrap=True, horizontalalignment="left", fontsize=11)
 plt.savefig(f"./images/hv-{today}.png")
+
+# Save historical volatility as a json file
+with open(f"./data/historical_volatility/hv-{today}.json", 'w', encoding="utf-8") as f:
+    json.dump(historical_volatirity, f, indent=4, ensure_ascii=False)
