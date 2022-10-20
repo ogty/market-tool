@@ -24,7 +24,7 @@ def logger(message: str) -> None:
 
     if not os.path.exists(settings.LOGS_DIR):
         os.makedirs(settings.LOGS_DIR)
-        
+
     this_year_month = datetime.datetime.now().strftime("%Y_%m")
     log_path = os.path.join(settings.LOGS_DIR, f"{this_year_month}.log")
     with open(log_path, 'a', encoding="utf-8") as f:
@@ -34,7 +34,7 @@ def logger(message: str) -> None:
 def trend() -> None:
     # TODO: use class
     global ALL_COMPANIES
-    global oldest_month 
+    global oldest_month
 
     latest_month = datetime.datetime.now().month
 
@@ -48,14 +48,14 @@ def trend() -> None:
     data = soup.select("[class='rankdataPageing yjS']")
     match = settings.RE_UP_DENOMINATOR.search(data[0].text)
     up_companies = match.group("up_denominator")
-    
+
     up_rate = int(up_companies) / ALL_COMPANIES
     down_rate = str(round((1.0 - up_rate) * 100, 3)).ljust(6)
     up_rate = str(round(up_rate * 100, 3)).ljust(6)
 
     message = f"{up_rate} | {down_rate}"
     logger(message)
-    
+
 
 def market_holidays(year: str, path: str) -> None:
     url = "https://www.jpx.co.jp/corporate/about-jpx/calendar/index.html"
@@ -74,11 +74,11 @@ def market_holidays(year: str, path: str) -> None:
 
 def is_open() -> bool:
     year = str(datetime.datetime.now().year)
-    
+
     path = os.path.join(settings.DATA_DIR, f"{year}.txt")
     if not os.path.exists(path):
         market_holidays(year, path)
-    
+
     with open(path, 'r', encoding="utf-8") as f:
         holidays = [holiday.rstrip() for holiday in f]
 

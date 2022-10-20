@@ -44,7 +44,7 @@ def totalling() -> None:
 
     # Main Process
     up_down = {
-        "up": up_splited, 
+        "up": up_splited,
         "down": down_splited,
     }
     for title, splited in up_down.items():
@@ -83,7 +83,9 @@ def totalling() -> None:
             new_market_data = dict(splited[i]["new_market"].value_counts())
             num_of_new_market = sum([v for v in new_market_data.values()])
             most_num_new_market = next(iter(new_market_data))
-            rate_new_market = round((new_market_data[most_num_new_market] / num_of_new_market) * 100)
+            rate_new_market = round(
+                (new_market_data[most_num_new_market] / num_of_new_market) * 100
+            )
             rate_new_market = str(rate_new_market).rjust(3)
 
             # Update the value, and if it is the same new market as before, use the ellipsis
@@ -101,11 +103,11 @@ def totalling() -> None:
             common_data = common_line_data.split(" | ")
 
             graph_data.append([
-                f"{start}〜{end}", 
-                market_line_data, 
+                f"{start}〜{end}",
+                market_line_data,
                 new_market_line_data,
-                common_data[1], 
-                common_data[2], 
+                common_data[1],
+                common_data[2],
                 common_data[3],
             ])
 
@@ -128,7 +130,7 @@ def totalling() -> None:
         # Update "result_text"
         result_text = result_text.replace("$$$", tmp_result, 1)
 
-    # Display and Save 
+    # Display and Save
     print(result_text)
     calculation_result_path = os.path.join(TOTALLING_DATA_SAVE_PATH, f"{day}.txt")
     with open(calculation_result_path, 'w', encoding="utf-8") as f:

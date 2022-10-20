@@ -9,7 +9,7 @@ RE_CODE = re.compile(r".+(\d{4}).+掲示板")
 
 
 class CodeAcquisition:
-    
+
     def __init__(self, category_type: str) -> None:
         self.category_type = category_type
         self.codes = []

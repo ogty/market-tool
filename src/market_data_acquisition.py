@@ -1,6 +1,6 @@
 import datetime
 import os
-from typing import List 
+from typing import List
 
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -13,7 +13,7 @@ import settings
 class MarketDataAcquisition:
 
     def category_max_page_num(self, category_number: int) -> int:
-        # TODO: 
+        # TODO:
         url = f"https://info.finance.yahoo.co.jp/ranking/?kd={category_number}&tm=d&vl=a&mk=1&p=1"
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
@@ -44,7 +44,7 @@ class MarketDataAcquisition:
             bar.set_description("Down")
 
         for i in range(1, max_page_num + 1):
-            # TODO: 
+            # TODO:
             url = f"https://info.finance.yahoo.co.jp/ranking/?kd={category_number}&tm=d&vl=a&mk=1&p={i}"
             html = requests.get(url)
             soup = BeautifulSoup(html.content, "html.parser")
@@ -69,7 +69,9 @@ class MarketDataAcquisition:
 
         for code in codes:
             try:
-                new_markets.append(include_new_market_df[(include_new_market_df["コード"] == int(code))]["新市場区分"].tolist()[0])
+                new_markets.append(include_new_market_df[
+                    (include_new_market_df["コード"] == int(code))]["新市場区分"].tolist()[0]
+                )
             except:
                 new_markets.append('-')
 
@@ -95,10 +97,10 @@ class MarketDataAcquisition:
 
         if not os.path.exists(MONTH_PATH):
             os.makedirs(MONTH_PATH)
-            
+
         up = self.ranking_data(1)
         down = self.ranking_data(2)
-        
+
         if connect:
             result = up + down
             df = pd.DataFrame(result, columns=columns)

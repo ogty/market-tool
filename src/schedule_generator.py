@@ -2,7 +2,7 @@ from typing import List
 
 
 class ScheduleGenerator:
-    
+
     def __init__(
         self,
         hours: List[int],
@@ -57,7 +57,7 @@ class ScheduleGenerator:
                 print(f"Error: {error}")
         else:
             return self.time_schedule
-    
+
     def addition(self, add_schedules: List[str]) -> List[str]:
         self.time_schedule += add_schedules
         self.reorder()

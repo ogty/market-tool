@@ -77,7 +77,7 @@ for en_label, ja_label in labels.items():
     ja_label_length = len(ja_label)
     if ja_label_length < maximum_length_of_label:
         ja_label += (maximum_length_of_label - ja_label_length) * '\u3000'
-    
+
     value = float(summary_statistics_for_hv[en_label])
     historical_volatirity["summaryStatistics"][en_label] = value
     describe += "%s\uFF1A%.2f\n" % (ja_label, value)

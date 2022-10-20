@@ -28,11 +28,11 @@ while True:
         while True:
             schedule.run_pending()
             time.sleep(1)
-            
+
             latest_day = datetime.datetime.now().day
             if latest_day != oldest_day:
                 break
-        
+
         oldest_day = latest_day
     else:
         print("Holiday  ", end='\b')

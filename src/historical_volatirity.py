@@ -1,9 +1,10 @@
 from statistics import median
-from typing import List 
+from typing import List
 
 import numpy as np
 import pandas as pd
 from yahoo_finance_api2 import share
+
 
 class HistoricalVolatirity:
 
@@ -37,7 +38,7 @@ class HistoricalVolatirity:
         return np.lib.stride_tricks.as_strided(data, shape=shape, strides=strides)
 
     def calc(self, n: int = None, m: int = None) -> float:
-        n = 20 if n is None else n 
+        n = 20 if n is None else n
         m = 240 if m is None else m
 
         close = self.stock_data()

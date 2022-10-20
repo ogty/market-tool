@@ -12,7 +12,7 @@ df = pd.read_csv("./data/data_j.csv")
 def stocks_with_high_hv() -> dict:
     with open("./data/historical_volatility/hv-2022-09-20.json", 'r', encoding="utf-8") as f:
         data = json.load(f)
-    
+
     upper_quartile = data["summaryStatistics"]["75%"]
 
     ok = []

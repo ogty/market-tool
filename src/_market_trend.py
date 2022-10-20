@@ -24,10 +24,10 @@ oldest_month = 0
 ALL_COMPANIES = 0
 
 # client = tweepy.Client(
-#     os.environ["BEARER_TOKEN"], 
-#     os.environ["API_KEY"], 
-#     os.environ["API_KEY_SECRET"], 
-#     os.environ["ACCESS_TOKEN"], 
+#     os.environ["BEARER_TOKEN"],
+#     os.environ["API_KEY"],
+#     os.environ["API_KEY_SECRET"],
+#     os.environ["ACCESS_TOKEN"],
 #     os.environ["ACCESS_TOKEN_SECRET"]
 # )
 
@@ -49,7 +49,7 @@ def logger(message: str) -> None:
 def trend() -> None:
     # TODO: use class
     global ALL_COMPANIES
-    global oldest_month 
+    global oldest_month
 
     latest_month = datetime.datetime.now().month
 
@@ -63,7 +63,7 @@ def trend() -> None:
     data = soup.select("[class='rankdataPageing yjS']")
     match = settings.RE_UP_DENOMINATOR.search(data[0].text)
     up_companies = match.group("up_denominator")
-    
+
     up_rate = int(up_companies) / ALL_COMPANIES
     down_rate = str(round((1.0 - up_rate) * 100, 3)).ljust(6)
     up_rate = str(round(up_rate * 100, 3)).ljust(6)
@@ -73,13 +73,13 @@ def trend() -> None:
     # twitter_message = f"{now}\n　UP　：{up_rate}%\nDOWN：{down_rate}%"
 
     logger(message)
-    
+
     # Twitter bot
     # client.create_tweet(text=twitter_message)
 
     # Slack bot
     # requests.post(
-    #     os.environ["WEB_HOOK_URL"], 
+    #     os.environ["WEB_HOOK_URL"],
     #     data=json.dumps({
     #         "text" : message,
     #         "icon_emoji" : ":dog:",
@@ -106,11 +106,11 @@ def market_holidays(year: str, path: str) -> None:
 
 def is_open() -> bool:
     year = str(datetime.datetime.now().year)
-    
+
     path = os.path.join(settings.DATA_DIR, f"{year}.txt")
     if not os.path.exists(path):
         market_holidays(year, path)
-    
+
     with open(path, 'r', encoding="utf-8") as f:
         holidays = [holiday.rstrip() for holiday in f]
 

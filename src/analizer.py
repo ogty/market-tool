@@ -1,6 +1,6 @@
 import inspect
 import os
-from typing import List, Dict 
+from typing import List, Dict
 
 import pandas as pd
 
@@ -8,15 +8,15 @@ from settings import DATA_DIR
 
 
 class Analizer:
-    
+
     def __init__(
-        self, 
-        codes: List[str or int], 
-        rate: bool = False, 
-        n: int = None, 
-        err: bool = False, 
-        ranking: bool = True, 
-        ranking_reverse: bool = True, 
+        self,
+        codes: List[str or int],
+        rate: bool = False,
+        n: int = None,
+        err: bool = False,
+        ranking: bool = True,
+        ranking_reverse: bool = True,
         delete_empty: bool = True
     ) -> None:
         df = pd.read_csv(os.path.join(DATA_DIR, "data_j.csv"))
@@ -86,7 +86,7 @@ class Analizer:
                     print(f"Error: {code} | {e}")
                 else:
                     pass
-        
+
         if self.rate:
             result = {k: round(v / df_data[k], self.n) for k, v in result.items()}
         if self.delete_empty:
